@@ -5,11 +5,9 @@ Created on 28 oct. 2012
 @author: guillaume
 '''
 import matplotlib.pyplot as plot
-import weakref
+
 from monitorperf.Configuration import Configuration
-from matplotlib.ticker import MultipleLocator, FormatStrFormatter,MaxNLocator,AutoLocator
-from matplotlib.dates import MinuteLocator
-from matplotlib import figure
+
 
     
 class MPChart(object):
