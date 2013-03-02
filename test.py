@@ -1,3 +1,4 @@
 #!/usr/bin/python
 
-print "yeah"
+print "hell yeah !"
+
