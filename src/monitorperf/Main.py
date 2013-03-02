@@ -143,7 +143,7 @@ if __name__ == '__main__':
            
     print "plot 5: internal"
      
-    res=ch.drawbasicgraph("Temps de reponse SPControl interne (process+db)",ch.data['detail_internal'],ch.data['avg_internal'])
+    res=ch.drawbasicgraph("Temps de reponse SPC interne (process+db)",ch.data['detail_internal'],ch.data['avg_internal'])
     generatedgraphs.append(res) 
 
     print "plot 6: all"

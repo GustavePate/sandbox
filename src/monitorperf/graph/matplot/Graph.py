@@ -95,7 +95,7 @@ class MPChart(object):
         fig = plot.figure(figsize=(10 , 5))
         graph2 = fig.add_subplot(111,axisbg='w',rasterized=True,axisbelow=False)
         graph2.plot(self.data['avg_global'],'k-',linewidth=0.5,label="moy. mouv. global")
-        graph2.plot(self.data['avg_internal'],'r-',linewidth=0.5,label='moy. mouv. interne SPControl')
+        graph2.plot(self.data['avg_internal'],'r-',linewidth=0.5,label='moy. mouv. interne SPC')
         graph2.plot(self.data['avg_recif'],'b-',linewidth=0.5,label="moy. mouv. recif")
         graph2.plot(self.data['avg_reciftr'],'g-',linewidth=0.5,label="moy. mouv. reciftr") 
         graph2.plot(self.data['avg_host'],'m-',linewidth=0.5,label="moy. mouv. host")        

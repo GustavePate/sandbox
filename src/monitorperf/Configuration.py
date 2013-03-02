@@ -9,13 +9,13 @@ class Configuration(object):
     '''
     classdocs
     '''
-    LOGPATH="../../input/"
+    LOGPATH="../../ressources/monitorperf/input/"
     LOGNAME="1hour.log"
     #LOGNAME="monitor-perf.ark.full.log"
-    GRAPHPATH="../../output/"
+    GRAPHPATH="../../ressources/monitorperf/output/"
     GRAPHNAME="output.png"
     GRAPHMATPLOT="outputmatplot.png"
-    REPORTPATH="../../output/"
+    REPORTPATH="../../ressources/monitorperf/output/"
     REPORTNAME="report.pdf"
     #Sur l'axe du temps écrire un label toutes les X mesures
     XLABELFREQUENCY=900
