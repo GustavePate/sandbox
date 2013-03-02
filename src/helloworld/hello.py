@@ -1,5 +1,6 @@
 #!/usr/bin/python
 
-print "hello yeah !"
+print "fuck hell yeah !"
+print "it works"
 
 
