@@ -1,7 +1,8 @@
 ************************************************************************
 **********************     VIRTUAL ENV       ***************************
 ************************************************************************
-
+```shell
+cd ~
 mkdir eclipsevirtualenv
 virtualenv eclipsevirtualenv/ref_env
 source eclipsevirtualenv/ref_env/bin/activate
@@ -10,11 +11,12 @@ source eclipsevirtualenv/ref_env/bin/activate
 
 pip install yolk
 yolk -l
-
 pip install pymongo
 yolk -l
 
 #YEAH !!!!
+```
+
 
 eclipse->project->properties->new interpreter 
 
