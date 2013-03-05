@@ -14,7 +14,7 @@ yolk -l
 pip install pymongo
 yolk -l
 
-#YEAH !!!!
+#YEAH !!!
 ```
 
 
