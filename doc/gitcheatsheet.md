@@ -26,7 +26,7 @@ eclipse->project->properties->new interpreter
 ************************************************************************
 ***************************     GIT    *********************************
 ************************************************************************
-
+```shell
 git config --list
 
 git config --global user.name "John Doe"
@@ -82,6 +82,6 @@ git remote -v
 
 #Tout pousser sur le serveur
 git push origin master
-
+```
 
 
