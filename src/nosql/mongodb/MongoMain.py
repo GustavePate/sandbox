@@ -1,3 +1,4 @@
+#encoding: utf-8
 '''
 Created on 3 mars 2013
 

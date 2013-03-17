@@ -20,7 +20,29 @@ yolk -l
 
 eclipse->project->properties->new interpreter 
 
+************************************************************************
+#####     CASSANDRA
+************************************************************************
+pip install cql
+pip install pycassa
 
+ 
+sudo apt-get install cassandra
+cassandra-cli
+connect localhost/9160;
+CREATE KEYSPACE CassandraTest with placement_strategy = 'org.apache.cassandra.locator.SimpleStrategy'and strategy_options = {replication_factor:1};
+use CassandraTest;
+CREATE COLUMN FAMILY users	WITH comparator = UTF8Type;
+CREATE COLUMN FAMILY test	WITH comparator = IntegerType;
+
+drop KEYSPACE CassandraTest;
+
+http://www.datastax.com/docs/1.1/dml/using_cli
+
+************************************************************************
+#####     MONGODB
+************************************************************************
+sudo pip install pymongo
 
 
 ************************************************************************
