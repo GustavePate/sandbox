@@ -4,12 +4,13 @@ Created on 25 déc. 2012
 
 @author: guillaume
 '''
-from matplotlib.ticker import MultipleLocator, FormatStrFormatter,MaxNLocator,AutoLocator
-from matplotlib.dates import MinuteLocator
-import numpy as np
+
+#from matplotlib.ticker import MultipleLocator, FormatStrFormatter,MaxNLocator,AutoLocator
+#from matplotlib.dates import MinuteLocator
+import numpy as np 
 import matplotlib.pyplot as plot
 
-class Test(object):
+class Test(object): 
     '''
     classdocs
     '''

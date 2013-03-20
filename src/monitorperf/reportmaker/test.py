@@ -1,6 +1,8 @@
 import os
 import urllib2
-from PIL import Image 
+
+from PIL import Image
+
 
 def get_python_image(filename):
     """ Get a python logo image for this example """
