@@ -9,14 +9,11 @@ class Configuration(object):
     '''
     classdocs
     '''
-    LOGPATH="../../ressources/monitorperf/input/"
-    LOGNAME="1hour.log"
-    #LOGNAME="monitor-perf.ark.full.log"
-    GRAPHPATH="../../ressources/monitorperf/output/"
-    GRAPHNAME="output.png"
-    GRAPHMATPLOT="outputmatplot.png"
-    REPORTPATH="../../ressources/monitorperf/output/"
-    REPORTNAME="report.pdf"
+    LOGPATH="/home/guillaume/git/sandbox/ressources/monitorperf/input/1hour.log"
+    #LOGPATH="/home/guillaume/git/sandbox/ressources/monitorperf/input/monitor-perf.ark.full.log"
+    GRAPHPATH="/home/guillaume/git/sandbox/ressources/monitorperf/output/"
+    REPORTPATH="/home/guillaume/git/sandbox/ressources/monitorperf/output/report.pdf"
+
     #Sur l'axe du temps écrire un label toutes les X mesures
     XLABELFREQUENCY=900
     
@@ -36,7 +33,7 @@ class Configuration(object):
     
     
     #nb de valeurs prises en comptre pour le calcul de la moyenne flottante
-    WINDOWSSIZE=300
+    WINDOWSSIZE=3000
     
     logger=''
 

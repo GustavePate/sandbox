@@ -5,6 +5,7 @@ Created on 15 janv. 2013
 @author: guillaume
 '''
 import os
+import datetime
 import urllib2
 from PIL import Image as MImage
 from reportlab.lib.pagesizes import A4
@@ -73,6 +74,7 @@ class ReportMaker(object):
 
 if __name__ == '__main__':            
 
+    
     c=ReportMaker("./python.pdf")
     c.get_python_image("python.png")
     c.addGraph("python.png", "Logo python", "Un magnifique logo python super beau")

@@ -5,12 +5,22 @@ Created on 26 mars 2013
 '''
 
 import gc
+import urllib2
+import os
 
 class Utils(object):
     '''
     classdocs
     '''
 
+    def downloadexample(self,filename):
+        """ Get a python logo image for this example """
+        if not os.path.exists(filename):
+            response = urllib2.urlopen(
+                'http://www.python.org/community/logos/python-logo.png')
+            f = open(filename, 'w')
+            f.write(response.read())
+            f.close()
 
     def __init__(self):
         '''

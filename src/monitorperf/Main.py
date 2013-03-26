@@ -7,9 +7,12 @@ Created on 11 oct. 2012
 
 import logging
 import argparse
+import os
+import datetime
+import time
 
 
-from monitorperf.
+
 from monitorperf.Configuration import Configuration
 from monitorperf.reader.LogParser import LogParser
 from monitorperf.data.Ensemble import Ensemble
@@ -42,10 +45,10 @@ def main(log,pngpath,reportpath):
     logging.getLogger('').addHandler(console)
     Configuration.logger=logging
     
-    log=Log()
-    log.setLogger(logging.getLogger(''))
-    log.info('YYYYEEEEAAAHHH')
-    pass
+#    log=Log()
+#    log.setLogger(logging.getLogger(''))
+#    log.info('YYYYEEEEAAAHHH')
+#    pass
     
     
     ##############################################
@@ -68,7 +71,7 @@ def main(log,pngpath,reportpath):
     #     Lecture 
     ##############################################
     ens = Ensemble()
-    lg = LogParser(Configuration.LOGPATH+Configuration.LOGNAME,ens)
+    lg = LogParser(Configuration.LOGPATH,ens)
     lg=None
     
     logging.info('LOG PARSER OK')
@@ -80,10 +83,6 @@ def main(log,pngpath,reportpath):
     ##############################################
     
     crtl = Presenter(ens)
-    
-    #ch = Chart(Configuration.GRAPHPATH+Configuration.GRAPHNAME)
-    #ch.setData(ens.toData())
-    #ch.draw()
     
     #######################################################
     #     Alimentation du chart et constitution du graphe 
@@ -106,10 +105,6 @@ def main(log,pngpath,reportpath):
     
     generatedgraphs=[]
     print "plot 1: global"
-    
-#    ch = MPChart(Configuration.GRAPHPATH)
-#    ch.addData("x",crtl.getGlobalX())
-#    ch.addData("detail_global",crtl.getGlobalResponseTimes())  
 
     res=ch.drawbasicgraph("Temps de reponse Global",ch.data['detail_global'],ch.data['avg_global'])
     generatedgraphs.append(res)
@@ -151,7 +146,7 @@ def main(log,pngpath,reportpath):
     #TODO: concatener les images plutot qu'un pdf
     #TODO: rendre appelable en ligne de commande
     
-    rm = ReportMaker(Configuration.REPORTPATH+Configuration.REPORTNAME)
+    rm = ReportMaker(Configuration.REPORTPATH)
     for graph in generatedgraphs:
         print graph
         rm.addGraph(graph[1], graph[0], "blabla")
@@ -169,8 +164,7 @@ def main(log,pngpath,reportpath):
 if __name__ == '__main__':
     
 
-
-
+    start=datetime.datetime.now()
     ##############################################
     #     ARGUMENTS PARSING
     ##############################################
@@ -183,16 +177,31 @@ if __name__ == '__main__':
     parser.set_defaults(png="./")
     parser.set_defaults(pdf="./report.pdf")
     args= parser.parse_args()
-    print args
     print "Program Launched with args:"+str(args)
     print "Log:"+args.log
     print "FilePathToReport:"+args.pdf
     print "DirPathToImages:"+args.png
     
+    shouldquit=False
+    if not os.path.exists(args.log):
+        shouldquit=True
+        print "Log does not exist:"+args.log
+        
+    if os.path.exists(args.pdf):
+        shouldquit=True
+        print "Report already exists:"+args.pdf
+        
+    if not os.path.exists(args.png):
+        shouldquit=True
+        print "Png directory does not exist:"+args.png
+        
+    if not(shouldquit):
+        main(args.log,args.png,args.pdf)
+          
+    end=datetime.datetime.now()    
+    delta=end-start
     
-    
-    
-
+    print "Job done in "+str(delta)
 
 
 

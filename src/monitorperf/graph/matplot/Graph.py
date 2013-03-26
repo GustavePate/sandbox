@@ -9,7 +9,6 @@ import matplotlib.pyplot as plot
 from monitorperf.Configuration import Configuration
 
 
-    
 class MPChart(object):
     '''
     classdocs

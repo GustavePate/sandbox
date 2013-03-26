@@ -1,3 +1,4 @@
+
 ************************************************************************
 #####    VIRTUAL ENV      
 ************************************************************************
@@ -17,8 +18,32 @@ yolk -l
 #YEAH !!!
 ```
 
+pip install numpy
+pip install python-dateutil
+pip install reportlab
+pip install MySQL-python
+pip install argparse
+
+sudo apt-get install build-essential python-tk tk-dev libpng12-dev g++
+pip install matplotlib
+
+sudo apt-get install libjpeg libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
+si les liens n'existent pas (attention la destination doit etre en .so dans /usr/lib)
+sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/libjpeg.so 
+sudo ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so.6 /usr/lib/libfreetype.so
+sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/libz.so
+
+pip install pil
 
 eclipse->project->properties->new interpreter 
+
+
+************************************************************************
+#####    LANCER EN LIGNE DE COMMANDE
+************************************************************************
+export PYTHONPATH=/home/guillaume/git/sandbox/src:
+
+
 
 ************************************************************************
 #####     CASSANDRA
