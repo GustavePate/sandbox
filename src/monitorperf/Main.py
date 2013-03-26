@@ -5,13 +5,20 @@ Created on 11 oct. 2012
 @author: arg
 '''
 
+
+##########################################################################################################################################
+#   A LIRE AVANT DE LANCER AVEC ECLIPSE
+##########################################################################################################################################
+# Passer les arguments suivants au programme
+# Pour ne pas risquer de committer 
+# n'importe quoi n'importe ou:
+# ../../ressources/monitorperf/input/1hour.log -i ../../ressources/monitorperf/output/ -r ../../ressources/monitorperf/output/report.pdf
+##########################################################################################################################################
+
 import logging
 import argparse
 import os
 import datetime
-
-
-
 
 from monitorperf.Configuration import Configuration
 from monitorperf.reader.LogParser import LogParser
@@ -22,7 +29,19 @@ from monitorperf.reportmaker.ReportMaker import ReportMaker
 
 
 
-def main(log,pngpath,reportpath):
+
+
+def main(log,pngpath,reportpath,start):
+    
+    ##############################################
+    #     INIT CONFIGURATION
+    ##############################################
+
+    Configuration.LOGPATH=log    
+    Configuration.REPORTPATH=reportpath
+    Configuration.GRAPHPATH=pngpath
+    
+    
     ##############################################
     #     INIT LOGGERS
     ##############################################
@@ -153,12 +172,14 @@ def main(log,pngpath,reportpath):
     rm.makeit()
         
    
-       
+    
+    end=datetime.datetime.now()    
+    delta=end-start
     
     logging.info('')
-    logging.info('***********************************')
-    logging.info('MonitorPerf stats: JOB DONE !' )
-    logging.info('***********************************')
+    logging.info('*********************************************************')
+    logging.info('MonitorPerf stats: JOB DONE  in '+str(delta)+' !!!!')
+    logging.info('*********************************************************')
     
 
 if __name__ == '__main__':
@@ -182,6 +203,8 @@ if __name__ == '__main__':
     print "FilePathToReport:"+args.pdf
     print "DirPathToImages:"+args.png
     
+    print
+    
     shouldquit=False
     if not os.path.exists(args.log):
         shouldquit=True
@@ -196,16 +219,5 @@ if __name__ == '__main__':
         print "Png directory does not exist:"+args.png
         
     if not(shouldquit):
-        main(args.log,args.png,args.pdf)
+        main(args.log,args.png,args.pdf,start)
           
-    end=datetime.datetime.now()    
-    delta=end-start
-    
-    print "Job done in "+str(delta)
-
-
-
-
-
-
-

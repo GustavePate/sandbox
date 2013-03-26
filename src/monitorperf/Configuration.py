@@ -31,9 +31,8 @@ class Configuration(object):
     
     INTERNALCUTOFF=350.0
     
-    
     #nb de valeurs prises en comptre pour le calcul de la moyenne flottante
-    WINDOWSSIZE=3000
+    WINDOWSSIZE=300
     
     logger=''
 
