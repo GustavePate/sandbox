@@ -38,8 +38,7 @@ if __name__ == '__main__':
     objectid = db.testtable.insert(data)
     
     end=datetime.datetime.utcnow()
-    result=end-start    
-    print "create table time: ", result
+    print "create table time: ", end-start
     print ""    
     print "******Write******"
     keys=[]

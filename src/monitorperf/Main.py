@@ -6,7 +6,10 @@ Created on 11 oct. 2012
 '''
 
 import logging
-import gc
+import argparse
+import sys
+
+from monitorperf.utils.Logger import Log
 from monitorperf.Configuration import Configuration
 from monitorperf.reader.LogParser import LogParser
 from monitorperf.data.Ensemble import Ensemble
@@ -15,26 +18,10 @@ from monitorperf.graph.matplot.Graph import MPChart
 from monitorperf.reportmaker.ReportMaker import ReportMaker
 
 
-def dump_garbage():
-    """
-    show us what's the garbage about
-    """
-        
-    # force collection
-    print "GARBAGE:"
-    gc.collect()
 
-    print "GARBAGE OBJECTS:"
-    for x in gc.garbage:
-        s = str(x)
-        if len(s) > 80: s = s[:80]
-        print type(x),"\n  ", s
-
-
-if __name__ == '__main__':
-    
+def main(log,pngpath,reportpath):
     ##############################################
-    #     INIT 
+    #     INIT LOGGERS
     ##############################################
     
     logging.basicConfig(level=logging.DEBUG,
@@ -54,8 +41,13 @@ if __name__ == '__main__':
     # add the handler to the root logger
     logging.getLogger('').addHandler(console)
     Configuration.logger=logging
-
-
+    
+    log=Log()
+    log.setLogger(logging.getLogger(''))
+    log.info('YYYYEEEEAAAHHH')
+    pass
+    
+    
     ##############################################
     #     PROGRAM
     ##############################################
@@ -172,5 +164,39 @@ if __name__ == '__main__':
     logging.info('***********************************')
     logging.info('MonitorPerf stats: JOB DONE !' )
     logging.info('***********************************')
+    
+
+if __name__ == '__main__':
+    
+
+
+
+    ##############################################
+    #     ARGUMENTS PARSING
+    ##############################################
+
+    parser = argparse.ArgumentParser(description='Generate png and pdf reports based on a monitor-perf.log')
+    parser.add_argument('log', help='path to the log to analyse', type=str)
+    parser.add_argument('-i','--png', help='path to the directory where images will be generated', type=str)
+    parser.add_argument('-r','--pdf', help='path to the directory where pdf report will be generated', type=str)
+    parser.add_argument('-v', '--verbose', help='increase output verbosity',action='store_true')
+    parser.set_defaults(png="./")
+    parser.set_defaults(pdf="./report.pdf")
+    args= parser.parse_args()
+    print args
+    print "Program Launched with args:"+str(args)
+    print "Log:"+args.log
+    print "FilePathToReport:"+args.pdf
+    print "DirPathToImages:"+args.png
+    
+    
+    
+    
+
+
+
+
+
+
 
 

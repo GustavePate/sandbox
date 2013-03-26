@@ -38,12 +38,37 @@ CREATE COLUMN FAMILY test	WITH comparator = IntegerType;
 drop KEYSPACE CassandraTest;
 
 http://www.datastax.com/docs/1.1/dml/using_cli
+http://code.google.com/a/apache-extras.org/p/cassandra-dbapi2/
+https://pycon-2012-notes.readthedocs.org/en/latest/apache_cassandra_and_python.html
+
+operation | cassandra | mysql | mongo
+connect | 0.003420 | 0.026010  | 0.001964
+create | NA | 0.072727 | 0.218418
+read | 0.005036 | 0.051459 | 0.037322
+write | 0.000358 | 0.000111 | 0.000241
+delete | NA | 0.000014 | 0.000020
+drop | NA | 0.025190 | 0.002656
+
 
 ************************************************************************
 #####     MONGODB
 ************************************************************************
 sudo pip install pymongo
 
+************************************************************************
+#####     MYSQL
+************************************************************************
+apt-get install python-dev libmysqlclient-dev
+pip install MySQL-python
+
+mysql -u root -p
+
+show databases;
+use test;
+create user "test"@"localhost";
+SET password FOR "test"@"localhost" = password('test');
+GRANT ALL ON test.* TO "test"@"localhost";
+create table testtables(num int,text varchar(30),date long);
 
 ************************************************************************
 #####     GIT
