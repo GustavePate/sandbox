@@ -7,9 +7,9 @@ Created on 11 oct. 2012
 
 import logging
 import argparse
-import sys
 
-from monitorperf.utils.Logger import Log
+
+from monitorperf.
 from monitorperf.Configuration import Configuration
 from monitorperf.reader.LogParser import LogParser
 from monitorperf.data.Ensemble import Ensemble

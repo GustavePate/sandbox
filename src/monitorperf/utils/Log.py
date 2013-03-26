@@ -23,5 +23,6 @@ class Log(object):
         self.logger=logger
         
     def info(self,text):
+        print text
         self.logger.info(text)
         
