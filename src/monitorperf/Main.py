@@ -71,8 +71,8 @@ def main(log,pngpath,reportpath):
     #     Lecture 
     ##############################################
     ens = Ensemble()
-    lg = LogParser(Configuration.LOGPATH,ens)
-    lg=None
+    LogParser(Configuration.LOGPATH,ens)
+    
     
     logging.info('LOG PARSER OK')
     #ens.listMesures()
