@@ -2,7 +2,7 @@
 
 # C extensions
 *.so
-
+report.pdf
 # Packages
 *.egg
 *.egg-info
