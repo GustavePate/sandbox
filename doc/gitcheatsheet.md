@@ -23,6 +23,7 @@ pip install python-dateutil
 pip install reportlab
 pip install MySQL-python
 pip install argparse
+pip install pyyaml
 
 sudo apt-get install build-essential python-tk tk-dev libpng12-dev g++
 pip install matplotlib

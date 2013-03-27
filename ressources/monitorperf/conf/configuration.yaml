@@ -1,0 +1,12 @@
+
+#use spaces not tab !
+{ 
+  'ARK':{
+    'urls':['url1','url2'],
+    'focus_on_service':['*','Portefeuille']
+  },
+  'FTN':{
+    'urls':['url1','url2'],
+    'focus_on_service':['*','Portefeuille']
+  } 
+}
