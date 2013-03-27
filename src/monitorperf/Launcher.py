@@ -5,12 +5,20 @@ Created on 27 mars 2013
 '''
 import os
 import sys
+import urllib
+import subprocess
+
 from yaml import load, Loader
 
 
+def reporthook(a,b,c): 
+    print "% 3.1f%% of %d bytes\r" % (min(100, float(a * b) / c * 100), c),
+
 def wget(url,label):
-    filename=''
-    pass
+    i = url.rfind('/')
+    filename = label+url[i+1:]
+    print 'Download ',url, ' to ', filename
+    urllib.urlretrieve(url, str(filename), reporthook)
     return filename
 
 def grep(source_file,pattern,filename):
@@ -27,7 +35,7 @@ if __name__ == '__main__':
         pathelements=[]
         pathelements=fullpath.split("/")
         #supprimer le nom du .py du path
-        del list[-1]
+        del pathelements[-1]
 
         res="/"
         for e in pathelements:
@@ -47,16 +55,24 @@ if __name__ == '__main__':
             print settings[key]
             
             #wget files
+            # to test: python -m SimpleHTTPServer 8000
             files=[]
             for i,url in enumerate(settings[key]['urls']):
-                files.append(wget(url,i))
-                
-                
+                files.append(wget(url,key+str(i)+'_'))
+        
+            
+            
             #concat/sort files
-            #resultat=key.log 
-            source_file=key+'.log'
+            for to_concat in files:
+                ls_output = subprocess.check_output(['ls'])
+                print ls_output
+                ls_output = subprocess.call('ls | wc -l', shell=True)
+                print ls_output
+                source_file='/tmp/'+key+'.log'
+                #resultat=key.log 
+                
     
-    
+            continue
     
             #delete tmp wget files
             
@@ -65,7 +81,7 @@ if __name__ == '__main__':
     
             greped_files=[]
             for i,pattern in enumerate(settings[key]['focus_on_service']):
-                greped_files.append(pattern,grep(source_file,pattern,i))
+                greped_files.append((pattern,grep(source_file,pattern,key+str(i))))
             #launch Main
             
             print greped_files

@@ -2,11 +2,11 @@
 #use spaces not tab !
 { 
   'ARK':{
-    'urls':['url1','url2'],
+    'urls':['http://localhost:8000/1hour.log','http://localhost:8000/monitor-perf.ark.full.log'],
     'focus_on_service':['*','Portefeuille']
   },
   'FTN':{
-    'urls':['url1','url2'],
-    'focus_on_service':['*','Portefeuille']
+    'urls':['http://localhost:8000/1hour.log','http://localhost:8000/monitor-perf.ark.full.log'],
+    'focus_on_service':['*','PassageOrdre']
   } 
 }
