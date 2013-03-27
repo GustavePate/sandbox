@@ -12,7 +12,7 @@ Created on 11 oct. 2012
 # Passer les arguments suivants au programme
 # Pour ne pas risquer de committer 
 # n'importe quoi n'importe ou:
-# ../../ressources/monitorperf/input/1hour.log -i ../../ressources/monitorperf/output/ -r ../../ressources/monitorperf/output/report.pdf
+# ../../ressources/monitorperf/input/1hour.log  -l ARK_ALL -i ../../ressources/monitorperf/output/ -r ../../ressources/monitorperf/output/report.pdf
 ##########################################################################################################################################
 
 import logging
@@ -28,10 +28,7 @@ from monitorperf.graph.matplot.Graph import MPChart
 from monitorperf.reportmaker.ReportMaker import ReportMaker
 
 
-
-
-
-def main(log,pngpath,reportpath,start):
+def main(log,pngpath,reportpath,label,start):
     
     ##############################################
     #     INIT CONFIGURATION
@@ -80,22 +77,15 @@ def main(log,pngpath,reportpath,start):
     logging.info('***********************************')
     logging.info('')
 
-    #@TODO graph temps moyen =>temps moyen dans le titre
-    #@TODO declinaison par service
-    #@TODO graph nombre appel à dependance / appel => nombre appel moyen dans le titre
-    #@TODO declinaison par service
+
     
-    logging.info('MonitorPerf stats: OPENING LOG FILE' )
     ##############################################
     #     Lecture 
     ##############################################
     ens = Ensemble()
-    LogParser(Configuration.LOGPATH,ens)
-    
-    
+    LogParser(Configuration.LOGPATH,ens)    
     logging.info('LOG PARSER OK')
-    #ens.listMesures()
-    logging.info('LISTMESURE OK')
+
     
     ##############################################
     #     Mise en forme des résultats 
@@ -104,7 +94,7 @@ def main(log,pngpath,reportpath,start):
     crtl = Presenter(ens)
     
     #######################################################
-    #     Alimentation du chart et constitution du graphe 
+    #     Alimentation du chart 
     #######################################################
     
     ch = MPChart(Configuration.GRAPHPATH)
@@ -122,53 +112,63 @@ def main(log,pngpath,reportpath,start):
     #print crtl.getRecifResponseTimes()
     crtl=None
     
-    generatedgraphs=[]
-    print "plot 1: global"
+    #######################################################
+    #     Génération des graphes 
+    #######################################################    
 
-    res=ch.drawbasicgraph("Temps de reponse Global",ch.data['detail_global'],ch.data['avg_global'])
+    #@TODO graph temps moyen =>temps moyen dans le titre
+    #@TODO declinaison par service
+    #@TODO graph nombre appel à dependance / appel => nombre appel moyen dans le titre
+    #@TODO declinaison par service
+    #TODO: concatener les images plutot qu'un pdf
+    #TODO: (plot 7 avec filtre sur les temps de reponses > 1s
+    #TODO: nombre d'appel moyen / dependance
+    #TODO: caller qui wget et appelle N fois / B2B / Service(+*)
+    
+    generatedgraphs=[]
+    timestring=str(datetime.datetime.today().strftime('%Y%m%d_%H%M%S_'))
+    
+    
+    print "plot 1: global"
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Global",ch.data['detail_global'],ch.data['avg_global'])
     generatedgraphs.append(res)
 
-    
-
     print "plot 2: recif" 
-    res=ch.drawbasicgraph("Temps de reponse Recif (partie statique)",ch.data['detail_recif'],ch.data['avg_recif'])
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie statique)",ch.data['detail_recif'],ch.data['avg_recif'])
     generatedgraphs.append(res)  
 
     
     print "plot 3: recif tr"
-
-    res=ch.drawbasicgraph("Temps de reponse Recif (partie tr)",ch.data['detail_reciftr'],ch.data['avg_reciftr'])
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie tr)",ch.data['detail_reciftr'],ch.data['avg_reciftr'])
     generatedgraphs.append(res)
 
     
     print "plot 4: host"
-
-    res=ch.drawbasicgraph("Temps de reponse Host",ch.data['detail_host'],ch.data['avg_host'])
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Host",ch.data['detail_host'],ch.data['avg_host'])
     generatedgraphs.append(res)
 
            
     print "plot 5: internal"
-     
-    res=ch.drawbasicgraph("Temps de reponse SPC interne (process+db)",ch.data['detail_internal'],ch.data['avg_internal'])
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse SPC interne (process+db)",ch.data['detail_internal'],ch.data['avg_internal'])
     generatedgraphs.append(res) 
 
     print "plot 6: all"
-    res=ch.drawall("Composition du temps de reponse")
+    res=ch.drawall(timestring+label+"_Composition du temps de reponse")
     generatedgraphs.append(res) 
    
     print "plot 7: all2 temps cumulés + surfaces pleines"
-    #TODO: nombre d'appel moyen / dependance
+    
+    
     print "plot 8: nombre d'appel moyen / dependance"
-    #TODO: (plot 7 avec filtre sur les temps de reponses > 1s
+    
+    
     print "plot 9: (plot 7 avec filtre sur les temps de reponses > 1s)"   
-   
-    #TODO: concatener les images plutot qu'un pdf
-    #TODO: rendre appelable en ligne de commande
+
     
     rm = ReportMaker(Configuration.REPORTPATH)
     for graph in generatedgraphs:
         print graph
-        rm.addGraph(graph[1], graph[0], "blabla")
+        rm.addGraph(graph[1], graph[0], "commentaires...")
     rm.makeit()
         
    
@@ -194,7 +194,9 @@ if __name__ == '__main__':
     parser.add_argument('log', help='path to the log to analyse', type=str)
     parser.add_argument('-i','--png', help='path to the directory where images will be generated', type=str)
     parser.add_argument('-r','--pdf', help='path to the directory where pdf report will be generated', type=str)
+    parser.add_argument('-l','--label', help='label added to generated png and pdf', type=str)
     parser.add_argument('-v', '--verbose', help='increase output verbosity',action='store_true')
+    parser.set_defaults(label="B2B_ALL")
     parser.set_defaults(png="./")
     parser.set_defaults(pdf="./report.pdf")
     args= parser.parse_args()
@@ -219,5 +221,5 @@ if __name__ == '__main__':
         print "Png directory does not exist:"+args.png
         
     if not(shouldquit):
-        main(args.log,args.png,args.pdf,start)
+        main(args.log,args.png,args.pdf,args.label,start)
           

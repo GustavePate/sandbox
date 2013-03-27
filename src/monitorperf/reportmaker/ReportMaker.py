@@ -5,7 +5,6 @@ Created on 15 janv. 2013
 @author: guillaume
 '''
 import os
-import datetime
 import urllib2
 from PIL import Image as MImage
 from reportlab.lib.pagesizes import A4
@@ -35,13 +34,18 @@ class ReportMaker(object):
         doc = SimpleDocTemplate(self.pathtoreport, pagesize=landscape(A4))
         style = getSampleStyleSheet()
         parts = []
+        resizedimages=[]
         for n,p,t in self.graphs:
-            self.resizeImage(p)
+            resized=self.resizeImage(p)
+            resizedimages.append(resized)
             parts.append(Paragraph(n,style["Heading1"]))
-            parts.append(Image(p))
+            parts.append(Image(resized))
             parts.append(Paragraph(t,style["Normal"]))
             parts.append(PageBreak())
         doc.build(parts)
+        
+        for i in resizedimages:
+            os.remove(i)
         
     
     
@@ -67,9 +71,8 @@ class ReportMaker(object):
             newwidth=MAXWIDTH
             newheight=height/factor
             img2=img.resize((int(newwidth), int(newheight)), MImage.ANTIALIAS)
-            img2.save(filename,"PNG")    
-            print "resized to: "+''.join((str(newwidth), " ", str(newheight)))+": "+filename    
-
+            img2.save(filename+"_resized","PNG")    
+            return filename+"_resized"
 
 
 if __name__ == '__main__':            
