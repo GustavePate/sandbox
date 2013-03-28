@@ -11,9 +11,14 @@ class LogParser(object):
     ensemble= Ensemble()
     
     
-    def __init__(self,filename,ensemble):
+    def __init__(self,filename):
+        self.filetext=[]
+        self.ensemble= Ensemble()
         self.loadfile(filename)
         self.toMesure()
+    
+    def getEnsemble(self):
+        return self.ensemble
     
     def loadfile(self,filename):
         print "LogParser.loadfile"

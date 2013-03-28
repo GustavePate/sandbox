@@ -22,7 +22,9 @@ class MPChart(object):
         '''
         Constructor
         '''
-        self.outputpath=outputpath       
+        self.outputpath=outputpath   
+        self.data={}
+        self.xlabels=[]    
     
     def setxlabels(self):
         

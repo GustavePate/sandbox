@@ -17,6 +17,7 @@ class Ensemble(object):
         '''
         Constructor
         '''
+        self.mesures=[]
         
     def addMesure(self,line):
         me = Mesure(line)

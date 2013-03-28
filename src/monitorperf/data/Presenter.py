@@ -6,19 +6,21 @@ Created on 24 déc. 2012
 '''
 from monitorperf.filter.Filter import Filter
 from monitorperf.Configuration import Configuration
+from monitorperf.data.Ensemble import Ensemble
 import numpy as numpy
 
 class Presenter(object):
     '''
     classdocs
     '''
-    ens=[]
+    ens=Ensemble()
 
     def __init__(self,ens):
         '''
         Constructor
         '''
         self.ens=ens
+        print "Presenter constructor, ensemble size: ",len(self.ens.mesures)
     
     def getGlobalX(self):
         res=[]

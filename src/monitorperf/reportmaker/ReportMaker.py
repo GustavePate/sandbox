@@ -27,7 +27,7 @@ class ReportMaker(object):
         Constructor
         '''
         self.pathtoreport=reportfullpathname
-
+        self.graphs=[]
     
     
     def makeit(self):

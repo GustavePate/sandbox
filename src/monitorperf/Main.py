@@ -20,14 +20,13 @@ Created on 11 oct. 2012
 # export PYTHONPATH=/home/guillaume/git/sandbox/src
 ##########################################################################################################################################
 
-import logging
+
 import argparse
 import os
 import datetime
 
 from monitorperf.Configuration import Configuration
 from monitorperf.reader.LogParser import LogParser
-from monitorperf.data.Ensemble import Ensemble
 from monitorperf.data.Presenter import Presenter
 from monitorperf.graph.matplot.Graph import MPChart
 from monitorperf.reportmaker.ReportMaker import ReportMaker
@@ -43,53 +42,27 @@ def main(log,pngpath,reportpath,label,start):
     Configuration.REPORTPATH=reportpath
     Configuration.GRAPHPATH=pngpath
     
-    
-    ##############################################
-    #     INIT LOGGERS
-    ##############################################
-    
-    logging.basicConfig(level=logging.DEBUG,
-                    format='%(asctime)s %(name)-12s %(levelname)-8s %(message)s',
-                    datefmt='%m-%d %H:%M',
-                    filename='monitorParser.log',
-                    filemode='w')
 
-    # define a Handler which writes INFO messages or higher to the sys.stderr
-    console = logging.StreamHandler()
-    console.setLevel(logging.DEBUG)
-
-    # set a format which is simpler for console use
-    formatter = logging.Formatter('%(levelname)-2s %(message)s')
-    # tell the handler to use this format
-    console.setFormatter(formatter)
-    # add the handler to the root logger
-    logging.getLogger('').addHandler(console)
-    Configuration.logger=logging
-    
-#    log=Log()
-#    log.setLogger(logging.getLogger(''))
-#    log.info('YYYYEEEEAAAHHH')
-#    pass
-    
-    
     ##############################################
     #     PROGRAM
     ##############################################
 
 
-    logging.info('***********************************')
-    logging.info('MonitorPerf stats: PROCESSING...' )
-    logging.info('***********************************')
-    logging.info('')
+    print('***********************************')
+    print('MonitorPerf stats: PROCESSING...' )
+    print('***********************************')
+    print('')
 
 
     
     ##############################################
     #     Lecture 
     ##############################################
-    ens = Ensemble()
-    LogParser(Configuration.LOGPATH,ens)    
-    logging.info('LOG PARSER OK')
+    
+    lp=LogParser(Configuration.LOGPATH)
+    ens=lp.getEnsemble()  
+      
+    print('LOG PARSER OK:',Configuration.LOGPATH )
 
     
     ##############################################
@@ -121,14 +94,12 @@ def main(log,pngpath,reportpath,label,start):
     #     Génération des graphes 
     #######################################################    
 
-    #@TODO graph temps moyen =>temps moyen dans le titre
-    #@TODO declinaison par service
-    #@TODO graph nombre appel à dependance / appel => nombre appel moyen dans le titre
-    #@TODO declinaison par service
+    #TODO graph temps moyen =>temps moyen dans le titre
+    #TODO graph nombre appel à dependance / appel => nombre appel moyen dans le titre
     #TODO: concatener les images plutot qu'un pdf
     #TODO: (plot 7 avec filtre sur les temps de reponses > 1s
     #TODO: nombre d'appel moyen / dependance
-    #TODO: caller qui wget et appelle N fois / B2B / Service(+*)
+
     
     generatedgraphs=[]
     timestring=str(datetime.datetime.today().strftime('%Y%m%d_%H%M%S_'))
@@ -175,16 +146,18 @@ def main(log,pngpath,reportpath,label,start):
         print graph
         rm.addGraph(graph[1], graph[0], "commentaires...")
     rm.makeit()
+    print "report generated:",Configuration.REPORTPATH
         
-   
+    rm=None
+    generatedgraphs=None
     
     end=datetime.datetime.now()    
     delta=end-start
     
-    logging.info('')
-    logging.info('*********************************************************')
-    logging.info('MonitorPerf stats: JOB DONE  in '+str(delta)+' !!!!')
-    logging.info('*********************************************************')
+    print('')
+    print('*********************************************************')
+    print('MonitorPerf stats: JOB DONE  in '+str(delta)+' !!!!')
+    print('*********************************************************')
     
 
 if __name__ == '__main__':
