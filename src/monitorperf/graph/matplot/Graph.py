@@ -24,7 +24,7 @@ class MPChart(object):
         '''
         self.outputpath=outputpath   
         self.data={}
-        self.xlabels=[]    
+        self.xlabel=[]    
     
     def setxlabels(self):
         
