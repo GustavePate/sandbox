@@ -6,13 +6,15 @@
        'urls':['http://localhost:8000/1hour.log','http://localhost:8000/1hour.log'],
        'focus_on_service':['.*','Portefeuille'],
        'png_dir':'/opt/monitorperf/images/ARK/',
-       'report_dir':'/opt/monitorperf/reports/ARK'
+       'report_dir':'/opt/monitorperf/reports/ARK',
+       'monitorperflogversion':1
     },
     'FTN':{
        'urls':['http://localhost:8000/1hour.log','http://localhost:8000/1hour.log'],
        'focus_on_service':['.*','PassageOrdre'],
        'png_dir':'/opt/monitorperf/images/FTN/',
-        'report_dir':'/opt/monitorperf/reports/FTN'
+       'report_dir':'/opt/monitorperf/reports/FTN',
+       'monitorperflogversion':1
     }
 },
 'global':{
