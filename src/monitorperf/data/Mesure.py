@@ -4,7 +4,7 @@ Created on 11 oct. 2012
 
 @author: guillaume
 '''
-from monitorperf.Configuration import Configuration
+from monitorperf.utils.Configuration import Configuration
 from monitorperf.filter.Filter import Filter
 
 def filtr(func):

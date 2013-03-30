@@ -25,24 +25,14 @@ import argparse
 import os
 import datetime
 
-from monitorperf.Configuration import Configuration
 from monitorperf.reader.LogParser import LogParser
 from monitorperf.data.Presenter import Presenter
 from monitorperf.graph.matplot.Graph import MPChart
 from monitorperf.reportmaker.ReportMaker import ReportMaker
 
 
-def main(log,pngpath,reportpath,label,start):
+def main(logfullpath,pngpath,reportpath,label,start):
     
-    ##############################################
-    #     INIT CONFIGURATION
-    ##############################################
-
-    Configuration.LOGPATH=log    
-    Configuration.REPORTPATH=reportpath
-    Configuration.GRAPHPATH=pngpath
-    
-
     ##############################################
     #     PROGRAM
     ##############################################
@@ -59,10 +49,10 @@ def main(log,pngpath,reportpath,label,start):
     #     Lecture 
     ##############################################
     
-    lp=LogParser(Configuration.LOGPATH)
+    lp=LogParser(logfullpath)
     ens=lp.getEnsemble()  
       
-    print('LOG PARSER OK:',Configuration.LOGPATH )
+    print('LOG PARSER OK:',logfullpath )
 
     
     ##############################################
@@ -75,7 +65,7 @@ def main(log,pngpath,reportpath,label,start):
     #     Alimentation du chart 
     #######################################################
     
-    ch = MPChart(Configuration.GRAPHPATH)
+    ch = MPChart(pngpath)
     ch.addData("x",crtl.getGlobalX())
     ch.addData("detail_global",crtl.getGlobalResponseTimes())    
     ch.addData("avg_global",crtl.getAvgGlobalResponseTimes())
@@ -136,12 +126,12 @@ def main(log,pngpath,reportpath,label,start):
     print "plot 9: (plot 7 avec filtre sur les temps de reponses > 1s)"   
 
     
-    rm = ReportMaker(Configuration.REPORTPATH)
+    rm = ReportMaker(reportpath)
     for graph in generatedgraphs:
         print graph
         rm.addGraph(graph[1], graph[0], "commentaires...")
     rm.makeit()
-    print "report generated:",Configuration.REPORTPATH
+    print "report generated:",reportpath
         
     rm=None
     generatedgraphs=None

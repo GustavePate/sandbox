@@ -3,36 +3,32 @@ Created on 11 oct. 2012
 
 @author: guillaume
 '''
-from monitorperf.Configuration import Configuration
+from monitorperf.utils.Configuration import Configuration
 
 class Filter(object):
 
-    __globalcutoff=Configuration.GLOBALCUTOFF
-    __recifcutoff=Configuration.RECIFCUTOFF
-    __reciftrcutoff=Configuration.RECIFTRCUTOFF    
-    __hostcutoff=Configuration.HOSTCUTOFF  
-    __internalcutoff=Configuration.INTERNALCUTOFF
+    __globalcutoff=500
 
     def __init__(self,globalcutoff=None):
         if globalcutoff is None:
-            self.__globalcutoff=Configuration.GLOBALCUTOFF
+            self.__globalcutoff=Configuration.settings['global']['GLOBALCUTOFF']
         else:
             self.__globalcutoff=globalcutoff
 
     def getGlobalcutoff(self):
-        return self.__globalcutoff
+        return Configuration.settings['global']['GLOBALCUTOFF']
     
     def getRecifcutoff(self):
-        return self.__recifcutoff
+        return Configuration.settings['global']['RECIFCUTOFF']
     
     def getRecifTRcutoff(self):
-        return self.__reciftrcutoff    
+        return Configuration.settings['global']['RECIFTRCUTOFF']    
     
     def getHostcutoff(self):
-        return self.__hostcutoff
+        return Configuration.settings['global']['HOSTCUTOFF']
     
     def getInternalcutoff(self):
-        return self.__internalcutoff       
+        return Configuration.settings['global']['INTERNALCUTOFF']     
     
 
     globalcutoff = property(getGlobalcutoff, None, None, None)

@@ -3,14 +3,14 @@
 { 
 'targets':{
     'ARK':{
-       'urls':['http://localhost:8000/1hour.log','http://localhost:8000/1hour.log'],
+       'urls':['http://localhost:8000/1hour_new.log'],
        'focus_on_service':['.*','Portefeuille'],
        'png_dir':'/opt/monitorperf/images/ARK/',
        'report_dir':'/opt/monitorperf/reports/ARK',
        'monitorperflogversion':1
     },
     'FTN':{
-       'urls':['http://localhost:8000/1hour.log','http://localhost:8000/1hour.log'],
+       'urls':['http://localhost:8000/1hour_new.log'],
        'focus_on_service':['.*','PassageOrdre'],
        'png_dir':'/opt/monitorperf/images/FTN/',
        'report_dir':'/opt/monitorperf/reports/FTN',
@@ -18,6 +18,19 @@
     }
 },
 'global':{
+   #Sur l'axe du temps écrire un label toutes les X mesures
+   'XLABELFREQUENCY':900,
+   #Remplacer les temps de reponse > GLOBALCUTOFF par GLOBALCUTOFF
+   # (pas pris en compte pour le calcul des moyennes mouvantes)   
+   'GLOBALCUTOFF':500,
+    #Remplacer les temps de reponse Recif carac > RECIFCUTOFF par RECIFCUTOFF
+    # (pas pris en compte pour le calcul des moyennes mouvantes)   
+   'RECIFCUTOFF':80,
+   'RECIFTRCUTOFF':100,
+   'HOSTCUTOFF':250,
+   'INTERNALCUTOFF':350,
+   #nb de valeurs prises en comptre pour le calcul de la moyenne flottante
+   'WINDOWSSIZE':300
 
 }  
 }

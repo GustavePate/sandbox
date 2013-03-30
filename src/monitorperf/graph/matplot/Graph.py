@@ -6,7 +6,7 @@ Created on 28 oct. 2012
 '''
 import matplotlib.pyplot as plot
 
-from monitorperf.Configuration import Configuration
+from monitorperf.utils.Configuration import Configuration
 
 
 class MPChart(object):
@@ -34,7 +34,7 @@ class MPChart(object):
 #            pass
 #            # inutile ?
             for i,j in enumerate(self.data['x']):
-                if not((i % Configuration.XLABELFREQUENCY) == 0):
+                if not((i % Configuration.settings['global']['XLABELFREQUENCY']) == 0):
                     self.xlabel.append('')
                 else:
                     self.xlabel.append(j)
@@ -51,7 +51,7 @@ class MPChart(object):
         graph1 = fig.add_subplot(111)
     
         graph1.plot(pointdata,'b_',label="mesures")
-        graph1.plot(avgdata,'r-',linewidth=0.5,label="moy. mouv. ("+str(Configuration.WINDOWSSIZE)+" mesures)")
+        graph1.plot(avgdata,'r-',linewidth=0.5,label="moy. mouv. ("+str(Configuration.settings['global']['WINDOWSSIZE'])+" mesures)")
                         
         #Mise en forme tick        
         plot.xticks(range(len(self.xlabel)),self.xlabel,rotation=45,fontsize="small")
