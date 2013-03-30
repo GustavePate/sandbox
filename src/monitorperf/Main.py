@@ -24,14 +24,18 @@ Created on 11 oct. 2012
 import argparse
 import os
 import datetime
+import sys
 
+from monitorperf.utils.Configuration import Configuration
 from monitorperf.reader.LogParser import LogParser
 from monitorperf.data.Presenter import Presenter
 from monitorperf.graph.matplot.Graph import MPChart
 from monitorperf.reportmaker.ReportMaker import ReportMaker
 
 
-def main(logfullpath,pngpath,reportpath,label,start):
+def main(logfullpath,pngpath,reportpath,label):
+    
+    start=datetime.datetime.now()
     
     ##############################################
     #     PROGRAM
@@ -147,8 +151,25 @@ def main(logfullpath,pngpath,reportpath,label,start):
 
 if __name__ == '__main__':
     
+    ###################################
+    #recuperer  et initialiser la  conf
+    ################################### 
+    fullpath=os.path.join(os.getcwd(),sys.argv[0])
 
-    start=datetime.datetime.now()
+    pathelements=[]
+    pathelements=fullpath.split("/")
+    #supprimer le nom du .py du path
+    del pathelements[-1]
+
+    res="/"
+    for e in pathelements:
+        res=os.path.join(res,e)
+    
+    confpath=os.path.join(res,'../../ressources/monitorperf/conf/configuration.yaml')
+    print confpath
+    conf=Configuration(confpath)
+    
+
     ##############################################
     #     ARGUMENTS PARSING
     ##############################################
@@ -184,5 +205,5 @@ if __name__ == '__main__':
         print "Png directory does not exist:"+args.png
         
     if not(shouldquit):
-        main(args.log,args.png,args.pdf,args.label,start)
+        main(args.log,args.png,args.pdf,args.label)
           

@@ -31,9 +31,9 @@ if __name__ == '__main__':
     
     start_launcher=datetime.datetime.now()
     
-    ####################
-    #recuperer la conf
-    ####################    
+    ###################################
+    #recuperer  et initialiser la  conf
+    ################################### 
     fullpath=os.path.join(os.getcwd(),sys.argv[0])
 
     pathelements=[]
@@ -49,11 +49,7 @@ if __name__ == '__main__':
     print confpath
     conf=Configuration(confpath)
 
-    print "Configuration.initialized",Configuration.initialized
-    print "conf.initialized",conf.initialized
-    print "conf.getInit()",conf.getInit()
-    print "Configuration.getInit()",Configuration.getInit()
-    
+
     ###################################
     # pour tous les elements de la conf
     ###################################
@@ -125,11 +121,9 @@ if __name__ == '__main__':
             reportfullname=timestring+'_'+finallabel+'_report.pdf'
             reportfullpath=os.path.join(Configuration.settings['targets'][key]['report_dir'],reportfullname)
             
-            #top de debut
-            start=datetime.datetime.now()
             
             #generation du rapport
-            main(greped_file,Configuration.settings['targets'][key]['png_dir'],reportfullpath,finallabel,start)
+            main(greped_file,Configuration.settings['targets'][key]['png_dir'],reportfullpath,finallabel)
 
     end_launcher=datetime.datetime.now()
     
