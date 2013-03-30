@@ -5,6 +5,7 @@ Created on 28 oct. 2012
 @author: guillaume
 '''
 import matplotlib.pyplot as plot
+import os
 
 from monitorperf.utils.Configuration import Configuration
 
@@ -73,17 +74,18 @@ class MPChart(object):
         
         print "sauvegarde....."
         filename=[]
-        filename.append(self.outputpath)
         filename.append(title.lower().strip().replace(' ','_'))
         filename.append(".png")
-        plot.savefig(''.join(filename))        
+        filename_str=''.join(filename)
+        savepath=os.path.join(self.outputpath,filename_str)
+        plot.savefig(savepath)        
         #self.generatedfiles.append((title,''.join(filename)))   
     
         plot.clf()
         plot.close()
         fig.clf()
 
-        return (title,''.join(filename))
+        return (title,savepath)
 
 
     def addData(self,name,points):
@@ -111,16 +113,18 @@ class MPChart(object):
         #Layout Global
         plot.tight_layout(1.2)
         print "sauvegarde....."
+        
         filename=[]
-        filename.append(self.outputpath)
         filename.append(title.lower().strip().replace(' ','_'))
         filename.append(".png")
-        plot.savefig(''.join(filename))        
+        filename_str=''.join(filename)
+        savepath=os.path.join(self.outputpath,filename_str)
+        plot.savefig(savepath)        
         #self.generatedfiles.append((title,''.join(filename)))   
         plot.clf()
         plot.close()
         fig.clf()
-        return (title,''.join(filename))        
+        return (title,savepath)        
 
 
     
