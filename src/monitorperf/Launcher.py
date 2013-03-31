@@ -126,8 +126,7 @@ if __name__ == '__main__':
             main(greped_file,Configuration.settings['targets'][key]['png_dir'],reportfullpath,finallabel)
 
     end_launcher=datetime.datetime.now()
-    
-        
+
     delta=end_launcher-start_launcher
 
     print('')

@@ -129,7 +129,6 @@ def main(logfullpath,pngpath,reportpath,label):
     
     print "plot 9: (plot 7 avec filtre sur les temps de reponses > 1s)"   
 
-    
     rm = ReportMaker(reportpath)
     for graph in generatedgraphs:
         print graph

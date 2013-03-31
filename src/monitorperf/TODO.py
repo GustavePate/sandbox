@@ -1,11 +1,7 @@
-
-
-
 #P1
 #TODO: Verifier les resultats
 
 #P2
-#TODO: Compteur de temps faux à la seconde iteration
 #TODO: graph temps moyen =>temps moyen dans le titre
 #TODO: graph nombre appel à dependance / appel => nombre appel moyen dans le titre
 #TODO: (plot 7 avec filtre sur les temps de reponses > 1s
