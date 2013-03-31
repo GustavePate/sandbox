@@ -1,5 +1,7 @@
 #P1
 #TODO: Verifier les resultats
+#TODO l'axes des x ne correspond pas forcement aux mesures
+
 
 #P2
 #TODO: graph temps moyen =>temps moyen dans le titre
