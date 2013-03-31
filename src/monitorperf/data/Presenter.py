@@ -38,11 +38,20 @@ class Presenter(object):
                 y.append(m.getGlobalResponseTime())
         return y
     
-    def getAvgGlobalResponseTimes(self):
-        y=self.getGlobalResponseTimes(False)
-        window= numpy.ones(int(Configuration.settings['global']['WINDOWSSIZE']))/float(Configuration.settings['global']['WINDOWSSIZE'])
+    def getAvg(self,dataset):
+        y=dataset
+        window_size=int(Configuration.settings['global']['WINDOWSSIZE'])
+        if window_size>len(y):
+            window_size=len(y)/5
+        
+        window= numpy.ones(window_size)/float(window_size)
         res=numpy.convolve(y, window, 'same')
         return res
+        
+    
+    def getAvgGlobalResponseTimes(self):
+        return self.getAvg(self.getGlobalResponseTimes(False))
+
     
     def getRecifResponseTimes(self,activatefiltr=True):
         y=[]
@@ -55,10 +64,8 @@ class Presenter(object):
         return y
     
     def getAvgRecifResponseTimes(self):
-        y=self.getRecifResponseTimes(False)
-        window= numpy.ones(int(Configuration.settings['global']['WINDOWSSIZE']))/float(Configuration.settings['global']['WINDOWSSIZE'])
-        res=numpy.convolve(y, window, 'same')
-        return res
+        return self.getAvg(self.getRecifResponseTimes(False))
+
     
     def getRecifTRResponseTimes(self,activatefiltr=True):
         y=[]
@@ -71,11 +78,8 @@ class Presenter(object):
         return y
     
     def getAvgRecifTRResponseTimes(self):
-        y=self.getRecifTRResponseTimes(False)
-        window= numpy.ones(int(Configuration.settings['global']['WINDOWSSIZE']))/float(Configuration.settings['global']['WINDOWSSIZE'])
-        res=numpy.convolve(y, window, 'same')
-        return res    
-    
+        return self.getAvg(self.getRecifTRResponseTimes(False))
+        
     
     def getHostResponseTimes(self,activatefiltr=True):
         y=[]
@@ -88,10 +92,8 @@ class Presenter(object):
         return y
     
     def getAvgHostResponseTimes(self):
-        y=self.getHostResponseTimes(False)
-        window= numpy.ones(int(Configuration.settings['global']['WINDOWSSIZE']))/float(Configuration.settings['global']['WINDOWSSIZE'])
-        res=numpy.convolve(y, window, 'same')
-        return res    
+        return self.getAvg(self.getHostResponseTimes(False))
+
     
     def getInternalResponseTimes(self,activatefiltr=True):
         y=[]
@@ -106,10 +108,7 @@ class Presenter(object):
         return y
     
     def getAvgInternalResponseTimes(self):
-        y=self.getInternalResponseTimes(False)
-        window= numpy.ones(int(Configuration.settings['global']['WINDOWSSIZE']))/float(Configuration.settings['global']['WINDOWSSIZE'])
-        res=numpy.convolve(y, window, 'same')
-        return res        
+        return self.getAvg(self.getInternalResponseTimes(False))   
     
     
     def setFilter(self,filtr):

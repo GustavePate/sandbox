@@ -5,9 +5,13 @@ Created on 28 oct. 2012
 @author: guillaume
 '''
 import matplotlib.pyplot as plot
+import matplotlib.ticker as mticker
 import os
+import math
 
 from monitorperf.utils.Configuration import Configuration
+
+
 
 
 class MPChart(object):
@@ -18,6 +22,18 @@ class MPChart(object):
     outputpath=""
     data={}
     xlabel=[]
+    filterstep=1
+    
+    
+
+    def f(self,x):
+        res= ((x % self.filterstep) == 0)
+        #print 'x',x,'res',res
+        return res 
+    
+
+
+    
     
     def __init__(self,outputpath):
         '''
@@ -25,20 +41,17 @@ class MPChart(object):
         '''
         self.outputpath=outputpath   
         self.data={}
-        self.xlabel=[]    
+        self.xlabel=[]  
+        self.filterstep=1  
     
     def setxlabels(self):
+        # objetif 30 points / graphe
         
+        self.xlabel=[]
+        self.filterstep=math.ceil(float(len(self.data['x']))/float(Configuration.settings['global']['XTICKNUMBER']))
+        self.xlabel=self.data['x']              
         
-        if (self.xlabel==[]):
-            #self.xlabel=self.data['x']
-#            pass
-#            # inutile ?
-            for i,j in enumerate(self.data['x']):
-                if not((i % Configuration.settings['global']['XLABELFREQUENCY']) == 0):
-                    self.xlabel.append('')
-                else:
-                    self.xlabel.append(j)
+
                     
             
 
@@ -53,12 +66,15 @@ class MPChart(object):
     
         graph1.plot(pointdata,'b_',label="mesures")
         graph1.plot(avgdata,'r-',linewidth=0.5,label="moy. mouv. ("+str(Configuration.settings['global']['WINDOWSSIZE'])+" mesures)")
+
+
                         
         #Mise en forme tick        
         plot.xticks(range(len(self.xlabel)),self.xlabel,rotation=45,fontsize="small")
-        #TODO gérer proprement le nombre de ticks    
-#        majorLocator   = MaxNLocator(nbins=20)
-#        graph1.xaxis.set_major_locator(majorLocator)
+        
+        myLocator = mticker.MultipleLocator(self.filterstep)
+        graph1.xaxis.set_major_locator(myLocator)
+        
         
         #text
         plot.title(title,fontsize="small")
@@ -101,14 +117,22 @@ class MPChart(object):
         graph2.plot(self.data['avg_reciftr'],'g-',linewidth=0.5,label="moy. mouv. reciftr") 
         graph2.plot(self.data['avg_host'],'m-',linewidth=0.5,label="moy. mouv. host")        
         
+        
+        
+        
         plot.title(title)
         plot.xlabel('time')
         plot.ylabel('temps de reponse / ms')
         plot.legend(loc='upper left',prop={'size':6})
         
+
+        
         #Mise en forme tick        
         plot.xticks(range(len(self.xlabel)),self.xlabel,rotation=45)
         plot.grid(True,'major','y')
+        
+        myLocator = mticker.MultipleLocator(self.filterstep)
+        graph2.xaxis.set_major_locator(myLocator)        
 
         #Layout Global
         plot.tight_layout(1.2)

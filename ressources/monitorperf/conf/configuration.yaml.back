@@ -2,6 +2,13 @@
 #use spaces not tab !
 { 
 'targets':{
+    'ARK':{
+       'urls':['http://localhost:8000/1hour_new.log'],
+       'focus_on_service':['.*','Portefeuille'],
+       'png_dir':'/opt/monitorperf/images/ARK/',
+       'report_dir':'/opt/monitorperf/reports/ARK',
+       'monitorperflogversion':1
+    },
     'FTN':{
        'urls':['http://localhost:8000/1hour_new.log'],
        'focus_on_service':['.*','PassageOrdre'],

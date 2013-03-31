@@ -94,30 +94,30 @@ def main(logfullpath,pngpath,reportpath,label):
     timestring=str(datetime.datetime.today().strftime('%Y%m%d_%H%M%S_'))
     
     
-    print "plot 1: global"
+    print "plot 1: global",len(ch.data['detail_global']),"data points",len(ch.data['avg_global']),"avg points"
     res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Global",ch.data['detail_global'],ch.data['avg_global'])
     generatedgraphs.append(res)
 
-    print "plot 2: recif" 
+    print "plot 2: recif" ,len(ch.data['detail_recif']),"data points",len(ch.data['avg_recif']),"avg points"
     res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie statique)",ch.data['detail_recif'],ch.data['avg_recif'])
     generatedgraphs.append(res)  
 
     
-    print "plot 3: recif tr"
+    print "plot 3: recif tr",len(ch.data['detail_reciftr']),"data points",len(ch.data['avg_reciftr']),"avg points"
     res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie tr)",ch.data['detail_reciftr'],ch.data['avg_reciftr'])
     generatedgraphs.append(res)
 
     
-    print "plot 4: host"
+    print "plot 4: host",len(ch.data['detail_host']),"data points",len(ch.data['avg_host']),"avg points"
     res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Host",ch.data['detail_host'],ch.data['avg_host'])
     generatedgraphs.append(res)
 
            
-    print "plot 5: internal"
+    print "plot 5: internal",len(ch.data['detail_internal']),"data points",len(ch.data['avg_internal']),"avg points"
     res=ch.drawbasicgraph(timestring+label+"_Temps de reponse SPC interne (process+db)",ch.data['detail_internal'],ch.data['avg_internal'])
     generatedgraphs.append(res) 
 
-    print "plot 6: all"
+    print "plot 6: all",len(ch.data['detail_global']),"data points",len(ch.data['avg_global']),"avg points"
     res=ch.drawall(timestring+label+"_Composition du temps de reponse")
     generatedgraphs.append(res) 
    
