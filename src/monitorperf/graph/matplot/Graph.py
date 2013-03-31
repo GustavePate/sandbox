@@ -49,7 +49,12 @@ class MPChart(object):
         
         self.xlabel=[]
         self.filterstep=math.ceil(float(len(self.data['x']))/float(Configuration.settings['global']['XTICKNUMBER']))
-        self.xlabel=self.data['x']              
+        xlabel_selected=filter(self.f,range(1,len(self.data['x'])))
+                               
+        for i in xlabel_selected:
+            self.xlabel.append(self.data['x'][i])
+        
+                                               
         
 
                     
@@ -72,6 +77,7 @@ class MPChart(object):
         #Mise en forme tick        
         plot.xticks(range(len(self.xlabel)),self.xlabel,rotation=45,fontsize="small")
         
+        print 'xticks data size:',len(self.xlabel),'print one for each:',self.filterstep
         myLocator = mticker.MultipleLocator(self.filterstep)
         graph1.xaxis.set_major_locator(myLocator)
         
