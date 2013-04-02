@@ -1,5 +1,6 @@
 #P1
 #TODO: Verifier les resultats
+#TODO: monitorer systar
 
 #P2
 #TODO: plot 7 all2 temps cumulés + surfaces pleines
