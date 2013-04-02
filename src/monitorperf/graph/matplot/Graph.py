@@ -6,13 +6,16 @@ Created on 28 oct. 2012
 '''
 import matplotlib.pyplot as plot
 import matplotlib.ticker as mticker
+import matplotlib.dates as mdates
 import os
 import math
+import time
+from time import strptime
+from time import mktime
+from datetime import datetime
 
-from monitorperf.utils.Configuration import Configuration
 
-
-
+from monitorperf.utils.MyConfiguration import Configuration
 
 class MPChart(object):
     '''
@@ -26,10 +29,7 @@ class MPChart(object):
     
     
 
-    def f(self,x):
-        res= ((x % self.filterstep) == 0)
-        #print 'x',x,'res',res
-        return res 
+
     
 
 
@@ -43,43 +43,79 @@ class MPChart(object):
         self.data={}
         self.xlabel=[]  
         self.filterstep=1  
+
+
+    def f(self,x):
+        res= ((x % self.filterstep) == 0)
+        #print 'x',x,'res',res
+        return res 
     
-    def setxlabels(self):
+    def setxlabels(self,xdata):
         # objetif 30 points / graphe
         
-        self.xlabel=[]
-        self.filterstep=math.ceil(float(len(self.data['x']))/float(Configuration.settings['global']['XTICKNUMBER']))
-        xlabel_selected=filter(self.f,range(1,len(self.data['x'])))
-                               
-        for i in xlabel_selected:
-            self.xlabel.append(self.data['x'][i])
+        print "***** setxlabels *******"
         
-                                               
+        
+        self.xlabel=[]
+        # 1 label tous les ... longueur donnees / 30
+        label_freq=float(len(xdata))/float(Configuration.settings['global']['XTICKNUMBER'])
+        
+        #on arrondi au dessus (voir arrondi au dessous ?)
+        self.filterstep=math.ceil(label_freq)
+  
+
+        
+#        xlabel_selected=filter(self.f,range(1,len(xdata)))
+#                               
+#        for i in xlabel_selected:
+#            self.xlabel.append(xdata[i])
+            
+        self.xlabel = [xdata[i] for i in range(1,len(xdata)) if ((i % self.filterstep) == 0)]
+                               
         
 
-                    
+    def log4jtime2datetime(self,xdata):
+        x=[]
+        for tt in xdata:
+            receivedTime = datetime.strptime(tt, "%H:%M:%S,%f")
+            x.append(receivedTime)
+        return x
             
 
-    def drawbasicgraph(self,title,pointdata,avgdata):
+    def drawbasicgraph(self,title,xdata,pointdata,avgdata):
+        
+        print '-------------------------------------------------------------'
+        print 'Draw gaph:',title
+        print 'xdata:',len(xdata)
+        print 'pointdata:',len(pointdata)
+        print 'avgdata:',len(avgdata)
+        
+        
         
         #fig = figure.Figure(figsize=(10 , 5))
         fig = plot.figure(figsize=(10 , 4))
         
-        self.setxlabels()
+        #self.setxlabels(xdata)
         
         graph1 = fig.add_subplot(111)
-    
-        graph1.plot(pointdata,'b_',label="mesures")
-        graph1.plot(avgdata,'r-',linewidth=0.5,label="moy. mouv. ("+str(Configuration.settings['global']['WINDOWSSIZE'])+" mesures)")
+        
+        
+        
+        
+        x=self.log4jtime2datetime(xdata)
+         
+        graph1.plot(x,pointdata,'b_',label="mesures")
+        graph1.plot(x,avgdata,'r-',linewidth=0.5,label="moy. mouv. ("+str(Configuration.settings['global']['WINDOWSSIZE'])+" mesures)")
 
 
                         
-        #Mise en forme tick        
-        plot.xticks(range(len(self.xlabel)),self.xlabel,rotation=45,fontsize="small")
+        #Mise en forme tick
+        plot.xticks(rotation=45,fontsize="small")        
+        #plot.xticks(range(len(self.xlabel)),self.xlabel,rotation=45,fontsize="small")
         
-        print 'xticks data size:',len(self.xlabel),'print one for each:',self.filterstep
-        myLocator = mticker.MultipleLocator(self.filterstep)
-        graph1.xaxis.set_major_locator(myLocator)
+        #print 'xticks data size:',len(self.xlabel),'print one for each:',self.filterstep
+        #myLocator = mticker.MultipleLocator(self.filterstep)
+        #graph1.xaxis.set_major_locator(myLocator)
         
         
         #text
@@ -117,11 +153,11 @@ class MPChart(object):
     def drawall(self,title):
         fig = plot.figure(figsize=(10 , 5))
         graph2 = fig.add_subplot(111,axisbg='w',rasterized=True,axisbelow=False)
-        graph2.plot(self.data['avg_global'],'k-',linewidth=0.5,label="moy. mouv. global")
-        graph2.plot(self.data['avg_internal'],'r-',linewidth=0.5,label='moy. mouv. interne SPC')
-        graph2.plot(self.data['avg_recif'],'b-',linewidth=0.5,label="moy. mouv. recif")
-        graph2.plot(self.data['avg_reciftr'],'g-',linewidth=0.5,label="moy. mouv. reciftr") 
-        graph2.plot(self.data['avg_host'],'m-',linewidth=0.5,label="moy. mouv. host")        
+        graph2.plot(self.log4jtime2datetime(self.data['x_global']),self.data['avg_global'],'k-',linewidth=0.5,label="moy. mouv. global")
+        graph2.plot(self.log4jtime2datetime(self.data['x_internal']),self.data['avg_internal'],'r-',linewidth=0.5,label='moy. mouv. interne SPC')
+        graph2.plot(self.log4jtime2datetime(self.data['x_recif']),self.data['avg_recif'],'b-',linewidth=0.5,label="moy. mouv. recif")
+        graph2.plot(self.log4jtime2datetime(self.data['x_reciftr']),self.data['avg_reciftr'],'g-',linewidth=0.5,label="moy. mouv. reciftr") 
+        graph2.plot(self.log4jtime2datetime(self.data['x_host']),self.data['avg_host'],'m-',linewidth=0.5,label="moy. mouv. host")        
         
         
         
@@ -134,11 +170,12 @@ class MPChart(object):
 
         
         #Mise en forme tick        
-        plot.xticks(range(len(self.xlabel)),self.xlabel,rotation=45)
+#        plot.xticks(range(len(self.xlabel)),self.xlabel,rotation=45)
+        plot.xticks(rotation=45,fontsize="small") 
         plot.grid(True,'major','y')
         
-        myLocator = mticker.MultipleLocator(self.filterstep)
-        graph2.xaxis.set_major_locator(myLocator)        
+#        myLocator = mticker.MultipleLocator(self.filterstep)
+#        graph2.xaxis.set_major_locator(myLocator)        
 
         #Layout Global
         plot.tight_layout(1.2)

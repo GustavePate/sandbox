@@ -5,38 +5,56 @@ Created on 24 déc. 2012
 @author: guillaume
 '''
 from monitorperf.filter.Filter import Filter
-from monitorperf.utils.Configuration import Configuration
+from monitorperf.utils.MyConfiguration import Configuration
 from monitorperf.data.Ensemble import Ensemble
 import numpy as numpy
+import math
 
 class Presenter(object):
     '''
     classdocs
     '''
-    ens=Ensemble()
+    ens=None
+    filtr=None
 
     def __init__(self,ens):
         '''
         Constructor
         '''
         self.ens=ens
+        self.filtr=Filter()
         print "Presenter constructor, ensemble size: ",len(self.ens.mesures)
-    
-    def getGlobalX(self):
-        res=[]
-        for m in self.ens.mesures:
-            res.append(m.getTime())
-        return res
-    
-    def getGlobalResponseTimes(self,activatefiltr=True):
-        y=[]
-        filtr=Filter()
-        for m in self.ens.mesures:
-            if (activatefiltr and (m.getGlobalResponseTime()>filtr.getGlobalcutoff())):
-                y.append(filtr.getGlobalcutoff())
-            else:
-                y.append(m.getGlobalResponseTime())
-        return y
+        
+        
+    #Adjust cutoff
+   
+    def adjustConfCutoff(self,debug=False):
+        #initial cutoff
+        if debug:
+            print "initial cutoff:"
+            print "self.filtr.getGlobalcutoff()",self.filtr.getGlobalcutoff()
+            print "self.filtr.getInternalcutoff()",self.filtr.getInternalcutoff()
+            print "self.filtr.getRecifcutoff()",self.filtr.getRecifcutoff()
+            print "self.filtr.getRecifTRcutoff()",self.filtr.getRecifTRcutoff()
+            print "self.filtr.getHostcutoff()",self.filtr.getHostcutoff()
+        
+             
+        self.filtr.setGlobalCutoff(math.ceil(max(self.getAvgGlobalResponseTimes()['y'])/100.0)*100)
+        self.filtr.setRecifCutoff(math.ceil(max(self.getAvgRecifResponseTimes()['y'])/100.0)*100)
+        self.filtr.setReciftrCutoff(math.ceil(max(self.getAvgRecifTRResponseTimes()['y'])/100.0)*100)
+        self.filtr.setInternalCutoff(math.ceil(max(self.getAvgInternalResponseTimes()['y'])/100.0)*100)
+        self.filtr.setHostCutoff(math.ceil(max(self.getAvgHostResponseTimes()['y'])/100.0)*100)
+        
+                #initial cutoff
+        if debug:
+            print "adjusted cutoff:"
+            print "self.filtr.getGlobalcutoff()",self.filtr.getGlobalcutoff()
+            print "self.filtr.getInternalcutoff()",self.filtr.getInternalcutoff()
+            print "self.filtr.getRecifcutoff()",self.filtr.getRecifcutoff()
+            print "self.filtr.getRecifTRcutoff()",self.filtr.getRecifTRcutoff()
+            print "self.filtr.getHostcutoff()",self.filtr.getHostcutoff()
+        
+        
     
     def getAvg(self,dataset):
         y=dataset
@@ -48,71 +66,100 @@ class Presenter(object):
         res=numpy.convolve(y, window, 'same')
         return res
         
+    def getGlobalResponseTimes(self,activatefiltr=True):
+        x=[]
+        y=[]
+        for m in self.ens.mesures:
+            x.append(m.getTime())
+            res=m.getGlobalResponseTime()
+            if (activatefiltr and (res>self.filtr.getGlobalcutoff())):
+                y.append(self.filtr.getGlobalcutoff())
+            else:
+                y.append(res)
+        return {'x':x,'y':y}
+    
     
     def getAvgGlobalResponseTimes(self):
-        return self.getAvg(self.getGlobalResponseTimes(False))
-
+        res=self.getGlobalResponseTimes(False)
+        return  {'x':res['x'],'y':self.getAvg(res['y'])}
     
     def getRecifResponseTimes(self,activatefiltr=True):
         y=[]
-        filtr=Filter()
+        x=[]
         for m in self.ens.mesures:
-            if (activatefiltr and (m.getRecifResponseTime()>filtr.getRecifcutoff())):
-                y.append(filtr.getRecifcutoff())
-            else:
-                y.append(m.getRecifResponseTime())
-        return y
+            res=m.getRecifResponseTime()
+            if res:
+                x.append(m.getTime())
+                if (activatefiltr and (res>self.filtr.getRecifcutoff())):
+                    y.append(self.filtr.getRecifcutoff())
+                else:
+                    y.append(res)
+                
+        return {'x':x,'y':y}
     
     def getAvgRecifResponseTimes(self):
-        return self.getAvg(self.getRecifResponseTimes(False))
+        res=self.getRecifResponseTimes(False)
+        return  {'x':res['x'],'y':self.getAvg(res['y'])}
 
     
     def getRecifTRResponseTimes(self,activatefiltr=True):
         y=[]
-        filtr=Filter()
+        x=[]
         for m in self.ens.mesures:
-            if (activatefiltr and (m.getRecifTRResponseTime()>filtr.getRecifTRcutoff())):
-                y.append(filtr.getRecifTRcutoff())
-            else:
-                y.append(m.getRecifTRResponseTime())
-        return y
+            res=m.getRecifTRResponseTime()
+            if res:
+                x.append(m.getTime())
+                if (activatefiltr and (res>self.filtr.getRecifTRcutoff())):
+                    y.append(self.filtr.getRecifTRcutoff())
+                else:
+                    y.append(res)
+        return {'x':x,'y':y}
     
     def getAvgRecifTRResponseTimes(self):
-        return self.getAvg(self.getRecifTRResponseTimes(False))
+        res=self.getRecifTRResponseTimes(False)
+        return  {'x':res['x'],'y':self.getAvg(res['y'])}
+
         
     
     def getHostResponseTimes(self,activatefiltr=True):
         y=[]
-        filtr=Filter()
+        x=[]
         for m in self.ens.mesures:
-            if (activatefiltr and (m.getHostResponseTime()>filtr.getHostcutoff())):
-                y.append(filtr.getHostcutoff())
-            else:
-                y.append(m.getHostResponseTime())
-        return y
+            res=m.getHostResponseTime()
+            if res:
+                x.append(m.getTime())
+                if (activatefiltr and (res>self.filtr.getHostcutoff())):
+                    y.append(self.filtr.getHostcutoff())
+                else:
+                    y.append(res)
+        return {'x':x,'y':y}
     
     def getAvgHostResponseTimes(self):
-        return self.getAvg(self.getHostResponseTimes(False))
-
+        res=self.getHostResponseTimes(False)
+        return  {'x':res['x'],'y':self.getAvg(res['y'])}
     
     def getInternalResponseTimes(self,activatefiltr=True):
         y=[]
-        filtr=Filter()
+        x=[]
         for m in self.ens.mesures:
-            if (activatefiltr and (m.getSPCResponseTime()>filtr.getInternalcutoff())):
-                y.append(filtr.getInternalcutoff())
-            elif(m.getSPCResponseTime()<0):
-                y.append(filtr.getInternalcutoff())
+            x.append(m.getTime())
+            res=m.getSPCResponseTime()
+            if (activatefiltr and (res>self.filtr.getInternalcutoff())):
+                y.append(self.filtr.getInternalcutoff())
+            elif(res<0):
+                y.append(self.filtr.getInternalcutoff())
+                print 'Presenter: should not append !'
             else:
-                y.append(m.getSPCResponseTime())
-        return y
+                y.append(res)
+        return {'x':x,'y':y}
     
     def getAvgInternalResponseTimes(self):
-        return self.getAvg(self.getInternalResponseTimes(False))   
+        res=self.getInternalResponseTimes(False)
+        return  {'x':res['x'],'y':self.getAvg(res['y'])}        
     
     
     def setFilter(self,filtr):
         for m in self.ens.mesures:
             if m.getGlobalResponseTime()>filtr.getGlobalcutoff():
-                m.setGlobalResponseTime(filtr.getGlobalcutoff())
+                m.setGlobalResponseTime(self.filtr.getGlobalcutoff())
 

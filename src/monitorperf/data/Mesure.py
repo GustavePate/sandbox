@@ -4,8 +4,9 @@ Created on 11 oct. 2012
 
 @author: guillaume
 '''
-from monitorperf.utils.Configuration import Configuration
+from monitorperf.utils.MyConfiguration import Configuration
 from monitorperf.filter.Filter import Filter
+
 
 def filtr(func):
     res=func
@@ -90,61 +91,61 @@ class Mesure(object):
             return 20000
     
     def getRecifResponseTime(self):
-        res=0
+        res=None
         for i, f in enumerate(self.star):
             if i>0:
                 if f.find("recif;")<>-1:
                     detail=f.split(";")
-                    res=detail[3].split(":")[1]
-        return float(res)
+                    res=float(detail[3].split(":")[1])
+        return res
 
     def getRecifCallNumber(self):
-        res=0
+        res=None
         for i, f in enumerate(self.star):
             if i>0:
                 if f.find("recif;")<>-1:
                     detail=f.split(";")
-                    res=detail[1].split(":")[1]
+                    res=int(detail[1].split(":")[1])
         
-        return int(res)
+        return res
     
     def getRecifTRResponseTime(self):
-        res=0
+        res=None
         for i, f in enumerate(self.star):
             if i>0:
                 if f.find("recif_tr;")<>-1:
                     detail=f.split(";")
-                    res=detail[3].split(":")[1]
-        return float(res)
+                    res=float(detail[3].split(":")[1])
+        return res
 
     def getRecifTRCallNumber(self):
-        res=0
+        res=None
         for i, f in enumerate(self.star):
             if i>0:
                 if f.find("recif_tr;")<>-1:
                     detail=f.split(";")
-                    res=detail[1].split(":")[1]
+                    res=int(detail[1].split(":")[1])
         
-        return int(res)
+        return res
     
     
     def getHostResponseTime(self):
-        res=0
+        res=None
         for i, f in enumerate(self.star):
             if i>0:
                 if f.find("host;")<>-1:
                     detail=f.split(";")
-                    res=detail[3].split(":")[1]
-        return float(res)
+                    res=float(detail[3].split(":")[1])
+        return res
 
     def getHostCallNumber(self):
-        res=0
+        res=None
         for i, f in enumerate(self.star):
             if i>0:
                 if f.find("host;")<>-1:
                     detail=f.split(";")
-                    res=detail[1].split(":")[1]
+                    res=int(detail[1].split(":")[1])
         
-        return int(res)
+        return res
         
         

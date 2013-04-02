@@ -26,7 +26,7 @@ import os
 import datetime
 import sys
 
-from monitorperf.utils.Configuration import Configuration
+from monitorperf.utils.MyConfiguration import Configuration
 from monitorperf.reader.LogParser import LogParser
 from monitorperf.data.Presenter import Presenter
 from monitorperf.graph.matplot.Graph import MPChart
@@ -64,23 +64,32 @@ def main(logfullpath,pngpath,reportpath,label):
     ##############################################
     
     crtl = Presenter(ens)
+    crtl.adjustConfCutoff(True)
     
     #######################################################
     #     Alimentation du chart 
     #######################################################
     
     ch = MPChart(pngpath)
-    ch.addData("x",crtl.getGlobalX())
-    ch.addData("detail_global",crtl.getGlobalResponseTimes())    
-    ch.addData("avg_global",crtl.getAvgGlobalResponseTimes())
-    ch.addData("detail_recif",crtl.getRecifResponseTimes())
-    ch.addData("avg_recif",crtl.getAvgRecifResponseTimes())
-    ch.addData("detail_reciftr",crtl.getRecifTRResponseTimes())
-    ch.addData("avg_reciftr",crtl.getAvgRecifTRResponseTimes())
-    ch.addData("detail_host",crtl.getHostResponseTimes())
-    ch.addData("avg_host",crtl.getAvgHostResponseTimes())    
-    ch.addData("detail_internal",crtl.getInternalResponseTimes())
-    ch.addData("avg_internal",crtl.getAvgInternalResponseTimes())        
+    ch.addData("x_global",crtl.getGlobalResponseTimes()['x'])
+    ch.addData("detail_global",crtl.getGlobalResponseTimes()['y'])    
+    ch.addData("avg_global",crtl.getAvgGlobalResponseTimes()['y'])
+    
+    ch.addData("x_recif",crtl.getRecifResponseTimes()['x'])
+    ch.addData("detail_recif",crtl.getRecifResponseTimes()['y'])
+    ch.addData("avg_recif",crtl.getAvgRecifResponseTimes()['y'])
+    
+    ch.addData("x_reciftr",crtl.getRecifTRResponseTimes()['x'])
+    ch.addData("detail_reciftr",crtl.getRecifTRResponseTimes()['y'])
+    ch.addData("avg_reciftr",crtl.getAvgRecifTRResponseTimes()['y'])
+    
+    ch.addData("x_host",crtl.getHostResponseTimes()['x'])
+    ch.addData("detail_host",crtl.getHostResponseTimes()['y'])
+    ch.addData("avg_host",crtl.getAvgHostResponseTimes()['y'])
+        
+    ch.addData("x_internal",crtl.getInternalResponseTimes()['x'])
+    ch.addData("detail_internal",crtl.getInternalResponseTimes()['y'])
+    ch.addData("avg_internal",crtl.getAvgInternalResponseTimes()['y'])        
     #print crtl.getRecifResponseTimes()
     crtl=None
     
@@ -95,32 +104,32 @@ def main(logfullpath,pngpath,reportpath,label):
     
     
     print "plot 1: global",len(ch.data['detail_global']),"data points",len(ch.data['avg_global']),"avg points"
-    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Global",ch.data['detail_global'],ch.data['avg_global'])
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Global",ch.data['x_global'],ch.data['detail_global'],ch.data['avg_global'])
     generatedgraphs.append(res)
 
     print "plot 2: recif" ,len(ch.data['detail_recif']),"data points",len(ch.data['avg_recif']),"avg points"
-    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie statique)",ch.data['detail_recif'],ch.data['avg_recif'])
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie statique)",ch.data['x_recif'],ch.data['detail_recif'],ch.data['avg_recif'])
     generatedgraphs.append(res)  
 
     
     print "plot 3: recif tr",len(ch.data['detail_reciftr']),"data points",len(ch.data['avg_reciftr']),"avg points"
-    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie tr)",ch.data['detail_reciftr'],ch.data['avg_reciftr'])
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie tr)",ch.data['x_reciftr'],ch.data['detail_reciftr'],ch.data['avg_reciftr'])
     generatedgraphs.append(res)
 
     
     print "plot 4: host",len(ch.data['detail_host']),"data points",len(ch.data['avg_host']),"avg points"
-    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Host",ch.data['detail_host'],ch.data['avg_host'])
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Host",ch.data['x_host'],ch.data['detail_host'],ch.data['avg_host'])
     generatedgraphs.append(res)
 
            
     print "plot 5: internal",len(ch.data['detail_internal']),"data points",len(ch.data['avg_internal']),"avg points"
-    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse SPC interne (process+db)",ch.data['detail_internal'],ch.data['avg_internal'])
+    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse SPC interne (process+db)",ch.data['x_internal'],ch.data['detail_internal'],ch.data['avg_internal'])
     generatedgraphs.append(res) 
 
     print "plot 6: all",len(ch.data['detail_global']),"data points",len(ch.data['avg_global']),"avg points"
     res=ch.drawall(timestring+label+"_Composition du temps de reponse")
     generatedgraphs.append(res) 
-   
+#   
     print "plot 7: all2 temps cumulés + surfaces pleines"
     
     

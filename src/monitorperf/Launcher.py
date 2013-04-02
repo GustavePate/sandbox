@@ -10,7 +10,7 @@ import datetime
 
 from monitorperf.utils.Utils import Utils
 from monitorperf.Main import main
-from monitorperf.utils.Configuration import Configuration  
+from monitorperf.utils.MyConfiguration import Configuration
 
 ##########################################################################################################################################
 # A LIRE AVANT DE LANCER

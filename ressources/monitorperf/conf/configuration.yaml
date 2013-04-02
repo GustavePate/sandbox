@@ -3,7 +3,7 @@
 { 
 'targets':{
     'FTN':{
-       'urls':['http://localhost:8000/1hour_new.log'],
+       'urls':['http://localhost:8000/monitor-perf.ark.full.log'],
        'focus_on_service':['.*','PassageOrdre'],
        'png_dir':'/opt/monitorperf/images/FTN/',
        'report_dir':'/opt/monitorperf/reports/FTN',
@@ -23,7 +23,7 @@
    'HOSTCUTOFF':250,
    'INTERNALCUTOFF':350,
    #nb de valeurs prises en comptre pour le calcul de la moyenne flottante
-   'WINDOWSSIZE':300,
+   'WINDOWSSIZE':1000,
    'XTICKNUMBER':30
 
 }  
