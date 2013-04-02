@@ -37,13 +37,18 @@ class Presenter(object):
             print "self.filtr.getRecifcutoff()",self.filtr.getRecifcutoff()
             print "self.filtr.getRecifTRcutoff()",self.filtr.getRecifTRcutoff()
             print "self.filtr.getHostcutoff()",self.filtr.getHostcutoff()
+            print "self.filtr.getPacmancutoff()",self.filtr.getPacmancutoff()
         
              
         self.filtr.setGlobalCutoff(math.ceil(max(self.getAvgGlobalResponseTimes()['y'])/100.0)*100)
         self.filtr.setRecifCutoff(math.ceil(max(self.getAvgRecifResponseTimes()['y'])/100.0)*100)
         self.filtr.setReciftrCutoff(math.ceil(max(self.getAvgRecifTRResponseTimes()['y'])/100.0)*100)
         self.filtr.setInternalCutoff(math.ceil(max(self.getAvgInternalResponseTimes()['y'])/100.0)*100)
-        self.filtr.setHostCutoff(math.ceil(max(self.getAvgHostResponseTimes()['y'])/100.0)*100)
+        
+        if len(self.getHostResponseTimes()['y'])>1:
+            self.filtr.setHostCutoff(math.ceil(max(self.getAvgHostResponseTimes()['y'])/100.0)*100)
+        if len(self.getPacmanResponseTimes()['y'])>1:
+            self.filtr.setPacmanCutoff(math.ceil(max(self.getAvgPacmanResponseTimes()['y'])/100.0)*100)
         
                 #initial cutoff
         if debug:
@@ -53,6 +58,7 @@ class Presenter(object):
             print "self.filtr.getRecifcutoff()",self.filtr.getRecifcutoff()
             print "self.filtr.getRecifTRcutoff()",self.filtr.getRecifTRcutoff()
             print "self.filtr.getHostcutoff()",self.filtr.getHostcutoff()
+            print "self.filtr.getPacmancutoff()",self.filtr.getPacmancutoff()
         
         
     
@@ -130,6 +136,24 @@ class Presenter(object):
                 x.append(m.getTime())
                 if (activatefiltr and (res>self.filtr.getHostcutoff())):
                     y.append(self.filtr.getHostcutoff())
+                else:
+                    y.append(res)
+        return {'x':x,'y':y}
+    
+    def getAvgPacmanResponseTimes(self):
+        res=self.getPacmanResponseTimes(False)
+        return  {'x':res['x'],'y':self.getAvg(res['y'])}
+
+
+    def getPacmanResponseTimes(self,activatefiltr=True):
+        y=[]
+        x=[]
+        for m in self.ens.mesures:
+            res=m.getPacmanResponseTime()
+            if res:
+                x.append(m.getTime())
+                if (activatefiltr and (res>self.filtr.getPacmancutoff())):
+                    y.append(self.filtr.getPacmancutoff())
                 else:
                     y.append(res)
         return {'x':x,'y':y}

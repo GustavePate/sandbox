@@ -147,5 +147,24 @@ class Mesure(object):
                     res=int(detail[1].split(":")[1])
         
         return res
+
+    def getPacmanResponseTime(self):
+        res=None
+        for i, f in enumerate(self.star):
+            if i>0:
+                if f.find("pacman;")<>-1:
+                    detail=f.split(";")
+                    res=float(detail[3].split(":")[1])
+        return res
+
+    def getPacmanCallNumber(self):
+        res=None
+        for i, f in enumerate(self.star):
+            if i>0:
+                if f.find("pacman;")<>-1:
+                    detail=f.split(";")
+                    res=int(detail[1].split(":")[1])
+        
+        return res
         
         

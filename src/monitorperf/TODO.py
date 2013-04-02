@@ -2,7 +2,6 @@
 #TODO: Verifier les resultats
 
 #P2
-#TODO: monitorer la dependance pacman
 #TODO: plot 7 all2 temps cumulés + surfaces pleines
 #TODO: plot 8 (plot 7 avec filtre sur les temps de reponses > 1s)
 #TODO: frequence d'appel à spc

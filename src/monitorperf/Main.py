@@ -82,14 +82,26 @@ def main(logfullpath,pngpath,reportpath,label):
     ch.addData("x_reciftr",crtl.getRecifTRResponseTimes()['x'])
     ch.addData("detail_reciftr",crtl.getRecifTRResponseTimes()['y'])
     ch.addData("avg_reciftr",crtl.getAvgRecifTRResponseTimes()['y'])
-    
-    ch.addData("x_host",crtl.getHostResponseTimes()['x'])
-    ch.addData("detail_host",crtl.getHostResponseTimes()['y'])
-    ch.addData("avg_host",crtl.getAvgHostResponseTimes()['y'])
-        
+            
     ch.addData("x_internal",crtl.getInternalResponseTimes()['x'])
     ch.addData("detail_internal",crtl.getInternalResponseTimes()['y'])
     ch.addData("avg_internal",crtl.getAvgInternalResponseTimes()['y'])        
+    
+    graphHost=False
+    graphPacman=False
+    
+    if len(crtl.getHostResponseTimes()['y'])>1:
+        graphHost=True
+        ch.addData("x_host",crtl.getHostResponseTimes()['x'])
+        ch.addData("detail_host",crtl.getHostResponseTimes()['y'])
+        ch.addData("avg_host",crtl.getAvgHostResponseTimes()['y'])
+    
+    
+    if len(crtl.getPacmanResponseTimes()['y'])>1:
+        graphPacman=True
+        ch.addData("x_pacman",crtl.getPacmanResponseTimes()['x'])
+        ch.addData("detail_pacman",crtl.getPacmanResponseTimes()['y'])
+        ch.addData("avg_pacman",crtl.getAvgPacmanResponseTimes()['y'])        
     #print crtl.getRecifResponseTimes()
     crtl=None
     
@@ -116,18 +128,23 @@ def main(logfullpath,pngpath,reportpath,label):
     res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie tr)",ch.data['x_reciftr'],ch.data['detail_reciftr'],ch.data['avg_reciftr'])
     generatedgraphs.append(res)
 
+    if graphHost:
+        print "plot 4: host",len(ch.data['detail_host']),"data points",len(ch.data['avg_host']),"avg points"
+        res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Host",ch.data['x_host'],ch.data['detail_host'],ch.data['avg_host'])
+        generatedgraphs.append(res)
     
-    print "plot 4: host",len(ch.data['detail_host']),"data points",len(ch.data['avg_host']),"avg points"
-    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Host",ch.data['x_host'],ch.data['detail_host'],ch.data['avg_host'])
-    generatedgraphs.append(res)
+    if graphPacman:
+        print "plot 5: pacman",len(ch.data['detail_pacman']),"data points",len(ch.data['avg_pacman']),"avg points"
+        res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Pacman",ch.data['x_pacman'],ch.data['detail_pacman'],ch.data['avg_pacman'])
+        generatedgraphs.append(res)    
 
            
-    print "plot 5: internal",len(ch.data['detail_internal']),"data points",len(ch.data['avg_internal']),"avg points"
+    print "plot 6: internal",len(ch.data['detail_internal']),"data points",len(ch.data['avg_internal']),"avg points"
     res=ch.drawbasicgraph(timestring+label+"_Temps de reponse SPC interne (process+db)",ch.data['x_internal'],ch.data['detail_internal'],ch.data['avg_internal'])
     generatedgraphs.append(res) 
 
-    print "plot 6: all",len(ch.data['detail_global']),"data points",len(ch.data['avg_global']),"avg points"
-    res=ch.drawall(timestring+label+"_Composition du temps de reponse")
+    print "plot 7: all",len(ch.data['detail_global']),"data points",len(ch.data['avg_global']),"avg points"
+    res=ch.drawall(timestring+label+"_Composition du temps de reponse",graphPacman,graphHost)
     generatedgraphs.append(res) 
 
 

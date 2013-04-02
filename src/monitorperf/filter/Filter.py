@@ -12,6 +12,7 @@ class Filter(object):
     __reciftrcutoff=None
     __hostcutoff=None
     __internalcutoff=None
+    __pacmancutoff=None
 
     def __init__(self,globalcutoff=None):
         if globalcutoff is None:
@@ -33,6 +34,9 @@ class Filter(object):
         
     def setHostCutoff(self,c):
         self.__hostcutoff=c
+        
+    def setPacmanCutoff(self,c):
+        self.__pacmancutoff=c
 
     def getGlobalcutoff(self):
         if self.__globalcutoff:
@@ -70,6 +74,14 @@ class Filter(object):
         else:
             res=Configuration.settings['global']['INTERNALCUTOFF']
         return res   
+    
+    def getPacmancutoff(self):
+        if self.__pacmancutoff:
+            res=self.__pacmancutoff
+        else:
+            res=Configuration.settings['global']['PACMANCUTOFF']
+        return res   
+    
     
 
     globalcutoff = property(getGlobalcutoff, None, None, None)

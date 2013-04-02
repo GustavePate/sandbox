@@ -152,15 +152,17 @@ class MPChart(object):
         self.data[name]=points
         
 
-    def drawall(self,title):
+    def drawall(self,title,graphpacman,graphhost):
         fig = plot.figure(figsize=(10 , 5))
         graph2 = fig.add_subplot(111,axisbg='w',rasterized=True,axisbelow=False)
         graph2.plot(self.log4jtime2datetime(self.data['x_global']),self.data['avg_global'],'k-',linewidth=0.5,label="moy. mouv. global")
         graph2.plot(self.log4jtime2datetime(self.data['x_internal']),self.data['avg_internal'],'r-',linewidth=0.5,label='moy. mouv. interne SPC')
         graph2.plot(self.log4jtime2datetime(self.data['x_recif']),self.data['avg_recif'],'b-',linewidth=0.5,label="moy. mouv. recif")
-        graph2.plot(self.log4jtime2datetime(self.data['x_reciftr']),self.data['avg_reciftr'],'g-',linewidth=0.5,label="moy. mouv. reciftr") 
-        graph2.plot(self.log4jtime2datetime(self.data['x_host']),self.data['avg_host'],'m-',linewidth=0.5,label="moy. mouv. host")        
-        
+        graph2.plot(self.log4jtime2datetime(self.data['x_reciftr']),self.data['avg_reciftr'],'g-',linewidth=0.5,label="moy. mouv. reciftr")
+        if graphhost: 
+            graph2.plot(self.log4jtime2datetime(self.data['x_host']),self.data['avg_host'],'m-',linewidth=0.5,label="moy. mouv. host")        
+        if graphpacman: 
+            graph2.plot(self.log4jtime2datetime(self.data['x_pacman']),self.data['avg_pacman'],'m-',linewidth=0.5,label="moy. mouv. pacman")        
         
         
         

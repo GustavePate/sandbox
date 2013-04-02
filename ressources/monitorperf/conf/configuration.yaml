@@ -22,6 +22,7 @@
    'RECIFTRCUTOFF':100,
    'HOSTCUTOFF':250,
    'INTERNALCUTOFF':350,
+   'PACMANCUTOFF':150,
    #nb de valeurs prises en comptre pour le calcul de la moyenne flottante
    'WINDOWSSIZE':1000,
    'XTICKNUMBER':30
