@@ -129,14 +129,7 @@ def main(logfullpath,pngpath,reportpath,label):
     print "plot 6: all",len(ch.data['detail_global']),"data points",len(ch.data['avg_global']),"avg points"
     res=ch.drawall(timestring+label+"_Composition du temps de reponse")
     generatedgraphs.append(res) 
-#   
-    print "plot 7: all2 temps cumulés + surfaces pleines"
-    
-    
-    print "plot 8: nombre d'appel moyen / dependance"
-    
-    
-    print "plot 9: (plot 7 avec filtre sur les temps de reponses > 1s)"   
+
 
     rm = ReportMaker(reportpath)
     for graph in generatedgraphs:

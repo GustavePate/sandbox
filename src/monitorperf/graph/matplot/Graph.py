@@ -89,6 +89,8 @@ class MPChart(object):
         print 'xdata:',len(xdata)
         print 'pointdata:',len(pointdata)
         print 'avgdata:',len(avgdata)
+        global_average=sum(pointdata)/float(len(pointdata))
+        print 'avg',global_average
         
         
         
@@ -119,7 +121,7 @@ class MPChart(object):
         
         
         #text
-        plot.title(title,fontsize="small")
+        plot.title(title+" Moyenne: "+str(global_average)+" ms",fontsize="small")
         plot.xlabel('time',fontsize="small")
         plot.ylabel('temps de reponse / ms',fontsize="small")
         plot.legend(loc='upper left',prop={'size':6})
