@@ -3,6 +3,7 @@
 #####    VIRTUAL ENV      
 ************************************************************************
 ```shell
+sudo apt-get install python-virtualenv
 cd ~
 mkdir eclipsevirtualenv
 virtualenv eclipsevirtualenv/ref_env
@@ -17,24 +18,25 @@ yolk -l
 
 #YEAH !!!
 ```
+sudo apt-get install python-dev build-essential python-tk tk-dev libpng12-dev g++
+pip install matplotlib libjpeg8 libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
 
 pip install numpy
 pip install python-dateutil
 pip install reportlab
-pip install MySQL-python
+
 pip install argparse
 pip install pyyaml
 
-sudo apt-get install build-essential python-tk tk-dev libpng12-dev g++
-pip install matplotlib
 
-sudo apt-get install libjpeg libjpeg-dev libfreetype6 libfreetype6-dev zlib1g-dev
 si les liens n'existent pas (attention la destination doit etre en .so dans /usr/lib)
 sudo ln -s /usr/lib/x86_64-linux-gnu/libjpeg.so /usr/lib/libjpeg.so 
 sudo ln -s /usr/lib/x86_64-linux-gnu/libfreetype.so.6 /usr/lib/libfreetype.so
 sudo ln -s /usr/lib/x86_64-linux-gnu/libz.so /usr/lib/libz.so
 
 pip install pil
+
+pip install MySQL-python
 
 eclipse->project->properties->new interpreter 
 
