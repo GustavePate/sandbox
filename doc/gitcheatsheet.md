@@ -27,6 +27,7 @@ pip install reportlab
 
 pip install argparse
 pip install pyyaml
+pip install matplotlib
 
 
 si les liens n'existent pas (attention la destination doit etre en .so dans /usr/lib)

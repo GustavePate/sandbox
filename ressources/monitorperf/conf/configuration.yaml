@@ -3,12 +3,26 @@
 { 
 'targets':{
     'FTN':{
-       'urls':['http://localhost:8000/monitor-perf.ark.full.log'],
-       'focus_on_service':['.*','PassageOrdre'],
+       'urls':['http://spcontrol-1-a.gicm.net:8443/spcontrol-ftn/monitor-perf.log','http://spcontrol-1-b.gicm.net:8443/spcontrol-ftn/monitor-perf.log'],
+       'focus_on_service':['.*','PassageOrdre','Portefeuille','CarnetOrdre','SyntheseCompte','SaisieOrdre'],
        'png_dir':'/opt/monitorperf/images/FTN/',
        'report_dir':'/opt/monitorperf/reports/FTN',
        'monitorperflogversion':1
-    }
+    },
+    'ARK':{
+       'urls':['http://spcontrol-1-a.gicm.net:8443/spcontrol-ark/monitor-perf.log','http://spcontrol-1-b.gicm.net:8443/spcontrol-ark/monitor-perf.log'],
+       'focus_on_service':['.*','PassageOrdre','Portefeuille','CarnetOrdre','SyntheseCompte','SaisieOrdre'],
+       'png_dir':'/opt/monitorperf/images/ARK/',
+       'report_dir':'/opt/monitorperf/reports/ARK',
+       'monitorperflogversion':1
+    },
+    'EAB':{
+       'urls':['http://spcontrol-1-a.gicm.net:8443/spcontrol-eab/monitor-perf.log','http://spcontrol-1-b.gicm.net:8443/spcontrol-eab/monitor-perf.log'],
+       'focus_on_service':['.*','PassageOrdre','Portefeuille','CarnetOrdre','SyntheseCompte'],
+       'png_dir':'/opt/monitorperf/images/EAB/',
+       'report_dir':'/opt/monitorperf/reports/EAB',
+       'monitorperflogversion':1
+    }        
 },
 'global':{
    #Sur l'axe du temps écrire un label toutes les X mesures

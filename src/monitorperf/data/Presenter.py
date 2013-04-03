@@ -42,11 +42,15 @@ class Presenter(object):
              
         self.filtr.setGlobalCutoff(math.ceil(max(self.getAvgGlobalResponseTimes()['y'])/100.0)*100)
         self.filtr.setRecifCutoff(math.ceil(max(self.getAvgRecifResponseTimes()['y'])/100.0)*100)
-        self.filtr.setReciftrCutoff(math.ceil(max(self.getAvgRecifTRResponseTimes()['y'])/100.0)*100)
+        
         self.filtr.setInternalCutoff(math.ceil(max(self.getAvgInternalResponseTimes()['y'])/100.0)*100)
+        
+        if len(self.getRecifTRResponseTimes()['y'])>1:
+            self.filtr.setReciftrCutoff(math.ceil(max(self.getAvgRecifTRResponseTimes()['y'])/100.0)*100)
         
         if len(self.getHostResponseTimes()['y'])>1:
             self.filtr.setHostCutoff(math.ceil(max(self.getAvgHostResponseTimes()['y'])/100.0)*100)
+            
         if len(self.getPacmanResponseTimes()['y'])>1:
             self.filtr.setPacmanCutoff(math.ceil(max(self.getAvgPacmanResponseTimes()['y'])/100.0)*100)
         
