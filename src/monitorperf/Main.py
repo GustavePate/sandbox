@@ -74,13 +74,7 @@ def main(logfullpath,pngpath,reportpath,label):
     ch.addData("x_global",crtl.getGlobalResponseTimes()['x'])
     ch.addData("detail_global",crtl.getGlobalResponseTimes()['y'])    
     ch.addData("avg_global",crtl.getAvgGlobalResponseTimes()['y'])
-    
-    ch.addData("x_recif",crtl.getRecifResponseTimes()['x'])
-    ch.addData("detail_recif",crtl.getRecifResponseTimes()['y'])
-    ch.addData("avg_recif",crtl.getAvgRecifResponseTimes()['y'])
-    
-
-            
+          
     ch.addData("x_internal",crtl.getInternalResponseTimes()['x'])
     ch.addData("detail_internal",crtl.getInternalResponseTimes()['y'])
     ch.addData("avg_internal",crtl.getAvgInternalResponseTimes()['y'])        
@@ -88,6 +82,13 @@ def main(logfullpath,pngpath,reportpath,label):
     graphHost=False
     graphPacman=False
     graphRecifTR=False
+    graphRecif=False
+    
+    if len(crtl.getRecifResponseTimes()['y'])>1:
+        graphRecif=True
+        ch.addData("x_recif",crtl.getRecifResponseTimes()['x'])
+        ch.addData("detail_recif",crtl.getRecifResponseTimes()['y'])
+        ch.addData("avg_recif",crtl.getAvgRecifResponseTimes()['y'])        
     
     if len(crtl.getRecifTRResponseTimes()['y'])>1:
         graphRecifTR=True
@@ -124,9 +125,10 @@ def main(logfullpath,pngpath,reportpath,label):
     res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Global",ch.data['x_global'],ch.data['detail_global'],ch.data['avg_global'])
     generatedgraphs.append(res)
 
-    print "plot 2: recif" ,len(ch.data['detail_recif']),"data points",len(ch.data['avg_recif']),"avg points"
-    res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie statique)",ch.data['x_recif'],ch.data['detail_recif'],ch.data['avg_recif'])
-    generatedgraphs.append(res)  
+    if graphRecif:
+        print "plot 2: recif" ,len(ch.data['detail_recif']),"data points",len(ch.data['avg_recif']),"avg points"
+        res=ch.drawbasicgraph(timestring+label+"_Temps de reponse Recif (partie statique)",ch.data['x_recif'],ch.data['detail_recif'],ch.data['avg_recif'])
+        generatedgraphs.append(res)  
 
     if graphRecifTR:
         print "plot 3: recif tr",len(ch.data['detail_reciftr']),"data points",len(ch.data['avg_reciftr']),"avg points"
@@ -149,7 +151,7 @@ def main(logfullpath,pngpath,reportpath,label):
     generatedgraphs.append(res) 
 
     print "plot 7: all",len(ch.data['detail_global']),"data points",len(ch.data['avg_global']),"avg points"
-    res=ch.drawall(timestring+label+"_Composition du temps de reponse",graphPacman,graphHost,graphRecifTR)
+    res=ch.drawall(timestring+label+"_Composition du temps de reponse",graphPacman,graphHost,graphRecifTR,graphRecif)
     generatedgraphs.append(res) 
 
 

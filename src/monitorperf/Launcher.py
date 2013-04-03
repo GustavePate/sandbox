@@ -64,11 +64,13 @@ if __name__ == '__main__':
         files=[]
         for i,url in enumerate(Configuration.settings['targets'][key]['urls']):
             files.append(utils.wget(url,key+str(i)+'_'))
+
         
         all_in_one_file='/tmp/monitorperf_'+key+'.log'
         
         if os.path.exists(all_in_one_file):
             os.remove(all_in_one_file)
+
         
         print key+': concat'
         
