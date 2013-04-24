@@ -3,7 +3,7 @@
 { 
 'targets':{
     'FTN':{
-       'urls':['http://localhost:8000/monitor-perf.ark.full.log'],
+       'urls':['http://localhost:8000/monitor-perf.ftn.a.log'],
        'focus_on_service':['.*','PassageOrdre'],
        'png_dir':'/opt/monitorperf/images/FTN/',
        'report_dir':'/opt/monitorperf/reports/FTN',

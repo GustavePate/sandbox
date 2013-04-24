@@ -1,5 +1,6 @@
 eclipse.preferences.version=1
 encoding//src/monitorperf/Main.py=utf-8
+encoding//src/monitorperf/Test.py=utf-8
 encoding//src/monitorperf/data/Ensemble.py=utf-8
 encoding//src/monitorperf/data/Mesure.py=utf-8
 encoding//src/monitorperf/data/Presenter.py=utf-8

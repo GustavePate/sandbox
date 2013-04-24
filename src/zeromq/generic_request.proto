@@ -1,0 +1,38 @@
+package master;
+
+message ProtoRequest {
+	required string servicename =1;
+	required string caller = 2;
+	optional string ipadress =3;
+
+	enum Priority {
+		HIGH=1;
+		STD=2;
+		LOW=3;
+	}
+
+	optional Priority priority=4 [default = LOW];
+	repeated string req_additionaldata_donotuse = 5 [deprecated=true];
+}
+
+message ProtoResponse {
+	required ProtoRequest req = 1;
+	required int64 computetime = 2 [default=-1];
+	optional string server_ipadress = 3;
+	repeated string resp_additionaldata_donotuse = 4 [deprecated=true];
+}
+
+message SimpleRequest { 
+	required ProtoRequest req = 1;
+	required string youpla = 2;
+}
+
+
+message SimpleResponse {
+	required ProtoResponse resp = 1;
+	required string boum = 2;
+}
+
+
+
+	
