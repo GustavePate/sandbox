@@ -41,12 +41,18 @@ class Presenter(object):
         
              
         self.filtr.setGlobalCutoff(math.ceil(max(self.getAvgGlobalResponseTimes()['y'])/100.0)*100)
-        self.filtr.setRecifCutoff(math.ceil(max(self.getAvgRecifResponseTimes()['y'])/100.0)*100)
-        self.filtr.setReciftrCutoff(math.ceil(max(self.getAvgRecifTRResponseTimes()['y'])/100.0)*100)
+        
         self.filtr.setInternalCutoff(math.ceil(max(self.getAvgInternalResponseTimes()['y'])/100.0)*100)
+
+        if len(self.getRecifResponseTimes()['y'])>1:
+            self.filtr.setRecifCutoff(math.ceil(max(self.getAvgRecifResponseTimes()['y'])/100.0)*100)
+        
+        if len(self.getRecifTRResponseTimes()['y'])>1:
+            self.filtr.setReciftrCutoff(math.ceil(max(self.getAvgRecifTRResponseTimes()['y'])/100.0)*100)
         
         if len(self.getHostResponseTimes()['y'])>1:
             self.filtr.setHostCutoff(math.ceil(max(self.getAvgHostResponseTimes()['y'])/100.0)*100)
+            
         if len(self.getPacmanResponseTimes()['y'])>1:
             self.filtr.setPacmanCutoff(math.ceil(max(self.getAvgPacmanResponseTimes()['y'])/100.0)*100)
         
@@ -68,7 +74,11 @@ class Presenter(object):
         if window_size>len(y):
             window_size=len(y)/5
         
+        if window_size<1:
+            window_size=1
+            
         window= numpy.ones(window_size)/float(window_size)
+        print "window_size:",window_size
         res=numpy.convolve(y, window, 'same')
         return res
         

@@ -3,6 +3,7 @@
 #TODO: monitorer systar
 
 #P2
+#TODO: piechart nappels*temps_moyen par dependance
 #TODO: plot 7 all2 temps cumulés + surfaces pleines
 #TODO: plot 8 (plot 7 avec filtre sur les temps de reponses > 1s)
 #TODO: frequence d'appel à spc
