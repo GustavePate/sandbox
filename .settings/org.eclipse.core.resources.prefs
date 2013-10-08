@@ -10,3 +10,4 @@ encoding//src/monitorperf/utils/Configuration.py=utf-8
 encoding//src/nosql/cassandra/CassandraMain.py=utf-8
 encoding//src/nosql/mongodb/MongoMain.py=utf-8
 encoding//src/nosql/mysql/MysqlMain.py=utf-8
+encoding//src/zeromq/client_zmq.py=utf-8

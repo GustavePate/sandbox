@@ -1,7 +1,7 @@
 import zmq 
 from generic_request_pb2 import SimpleRequest
 from generic_request_pb2 import SimpleResponse
-from google.protobuf import message
+
 
 def handle_message(message):
     print "message:",message
@@ -25,9 +25,9 @@ def handle_message_protobuf(message):
 context = zmq.Context.instance() 
 sock = context.socket(zmq.REP) 
 sock.connect('tcp://localhost:8081') 
-msg = message
+
 while True: 
     msg = sock.recv() 
-    print msg.ListFields()
+    print msg
     response = handle_message_protobuf(msg) 
     sock.send(response)
