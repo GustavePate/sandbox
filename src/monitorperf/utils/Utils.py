@@ -18,7 +18,7 @@ class Utils(object):
 
 
     def wgetreporthook(self,a,b,c): 
-        #print "% 3.1f%% of %d bytes\r" % (min(100, float(a * b) / c * 100), c),
+        print "% 3.1f%% of %d bytes\r" % (min(100, float(a * b) / c * 100), c),
         pass
 
     def wget(self,url,label):
